@@ -20,7 +20,7 @@ import org.workplicity.worklet.WorkletContext;
  *
  * @author Trescenzi
  */
-public class Budget extends Entry implements BudgetInterface, BudgetFactoryInterface{
+public class Budget extends Entry implements BudgetInterface, BudgetFactoryInterface {
     protected String description;
     protected ArrayList<Integer> noteIds;
     
