@@ -22,7 +22,6 @@ import org.workplicity.worklet.WorkletContext;
  * @author Trescenzi
  */
 public class Budget extends BaseModel implements BudgetInterface {
-
     protected String description;
     protected String name;
     protected ArrayList<Integer> noteIds;
@@ -42,14 +41,14 @@ public class Budget extends BaseModel implements BudgetInterface {
     public ArrayList<LineInterface> fetchLines(Side side) {
         BasicDBObject query = new BasicDBObject();
         query.put("entry.budgetId",this.id); //entry.budgetId seems to be how he did this not sure why it works
-        return Helper.query("lines", JSON.serialize(query), WorkletContext.getInstance());
+        return Helper.query("Lines", JSON.serialize(query), WorkletContext.getInstance());
     }
 
     @Override
     public ArrayList<NoteInterface> fetchNotes() {
         BasicDBObject query = new BasicDBObject();
         query.put("entry.budgetId",this.id); //entry.budgetId seems to be how he did this not sure why it works
-        return Helper.query("notes", JSON.serialize(query), WorkletContext.getInstance());
+        return Helper.query("Notes", JSON.serialize(query), WorkletContext.getInstance());
     }
 
     @Override
@@ -116,7 +115,7 @@ public class Budget extends BaseModel implements BudgetInterface {
     public Boolean commit() { 
         System.out.println(Helper.whoAmI(WorkletContext.getInstance()));
         System.out.println(Helper.getTicket(WorkletContext.getInstance()));
-        Helper.insert(this, repoName, WorkletContext.getInstance());
+        Helper.insert(this, getRepositoryName(), WorkletContext.getInstance());
         System.out.println(Helper.getTicket(WorkletContext.getInstance()));
         return false;
     }

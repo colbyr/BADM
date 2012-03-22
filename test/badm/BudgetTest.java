@@ -69,13 +69,16 @@ public class BudgetTest {
                     } catch (Exception e) {
                             fail("failed with exception: " + e);
                     }
+                    System.out.println("sex");
                     System.out.println(Helper.getTicket(context));
-                    BudgetInterface budget = BridgeHelper.getBudgetFactory().create();
-                    budget.setDescription("My Budget");
+                    BudgetInterface budget = BridgeHelper.getBudgetFactory().create(); 
                     String repos = budget.getRepositoryName();
                     System.out.println(budget.commit());
                     System.out.println(Helper.getTicket(context));
+                    System.out.println("sexy");
                     // Retrieve the budget
+                    budget.setDescription("My Budget");
+                    budget.commit();
                     BudgetInterface budgetF = 
                             (Budget) Helper.fetch(repos, -1, WorkletContext.getInstance());
 
