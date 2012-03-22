@@ -50,9 +50,4 @@ public class Line extends BaseModel implements LineInterface {
 		throw new UnsupportedOperationException("Not supported yet.");
 	}
 
-	@Override
-	public Boolean commit() {
-		throw new UnsupportedOperationException("Not supported yet.");
-	}
-
 }

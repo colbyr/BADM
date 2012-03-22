@@ -54,9 +54,4 @@ public class Note extends BaseModel implements NoteInterface{
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
-    @Override
-    public Boolean commit() {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
 }

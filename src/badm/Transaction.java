@@ -44,9 +44,4 @@ public class Transaction extends BaseModel implements TransactionInterface {
 		throw new UnsupportedOperationException("Not supported yet.");
 	}
 
-	@Override
-	public Boolean commit() {
-		throw new UnsupportedOperationException("Not supported yet.");
-	}
-	
 }
