@@ -4,7 +4,7 @@
  */
 package badm;
 
-import cc.test.bridge.BridgeHelper.Side;
+import cc.test.bridge.BridgeConstants.Side;
 import cc.test.bridge.BudgetFactoryInterface;
 import cc.test.bridge.BudgetInterface;
 import cc.test.bridge.LineInterface;
@@ -17,7 +17,8 @@ import org.workplicity.util.Helper;
 import org.workplicity.worklet.WorkletContext;
 
 /**
- *
+ * Budget
+ * 
  * @author Trescenzi
  */
 public class Budget extends Entry implements BudgetInterface, BudgetFactoryInterface {
@@ -42,8 +43,8 @@ public class Budget extends Entry implements BudgetInterface, BudgetFactoryInter
     @Override
     public ArrayList<NoteInterface> fetchNotes() {
         BasicDBObject query = new BasicDBObject();
-        query.put("entry.budgetId",this.id);//entry.budgetId seems to be how he did this not sure why it works
-        return Helper.query("Notes",JSON.serialize(query),WorkletContext.getInstance());
+        query.put("entry.budgetId",this.id); //entry.budgetId seems to be how he did this not sure why it works
+        return Helper.query("Notes", JSON.serialize(query), WorkletContext.getInstance());
     }
 
     @Override
