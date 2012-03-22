@@ -12,7 +12,7 @@ import org.workplicity.entry.Entry;
  *
  * @author Trescenzi
  */
-public class Note extends Entry implements NoteInterface{
+public class Note extends BaseModel implements NoteInterface{
     protected String text;
     protected String name;
     protected Date date;
@@ -59,9 +59,4 @@ public class Note extends Entry implements NoteInterface{
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
-    @Override
-    public String getRepositoryName() {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-    
 }

@@ -5,13 +5,12 @@
 package badm;
 
 import java.util.ArrayList;
-import org.workplicity.entry.Entry;
 
 /**
  *
  * @author idontknow5691
  */
-public class Audits extends Entry {
+public class Audits extends BaseModel {
 
 	public int timestamp;
 	

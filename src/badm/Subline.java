@@ -13,7 +13,7 @@ import org.workplicity.entry.Entry;
  *
  * @author idontknow5691
  */
-public class Subline extends Entry implements SublineInterface {
+public class Subline extends BaseModel implements SublineInterface {
 
 	@Override
 	public ArrayList<TransactionInterface> fetchTransactions() {
@@ -55,9 +55,4 @@ public class Subline extends Entry implements SublineInterface {
 		throw new UnsupportedOperationException("Not supported yet.");
 	}
 
-	@Override
-	public String getRepositoryName() {
-		throw new UnsupportedOperationException("Not supported yet.");
-	}
-	
 }

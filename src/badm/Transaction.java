@@ -12,7 +12,7 @@ import org.workplicity.entry.Entry;
  *
  * @author idontknow5691
  */
-public class Transaction extends Entry implements TransactionInterface {
+public class Transaction extends BaseModel implements TransactionInterface {
 
 	@Override
 	public Date getDate() {
@@ -46,11 +46,6 @@ public class Transaction extends Entry implements TransactionInterface {
 
 	@Override
 	public Boolean commit() {
-		throw new UnsupportedOperationException("Not supported yet.");
-	}
-
-	@Override
-	public String getRepositoryName() {
 		throw new UnsupportedOperationException("Not supported yet.");
 	}
 	
