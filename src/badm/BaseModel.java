@@ -8,23 +8,37 @@ import org.workplicity.entry.Entry;
 
 /**
  * BaseModel
- *	some methods that are used in all models
- * @author idontknow5691
+ *	
+ * Gloabl model methods
+ * 
+ * @author Colby Rabideau
  */
 abstract class BaseModel extends Entry {
 	
-	public static String className = "";
+	/**
+	 * Repository Name
+	 *
+	 * name of the model's Mongo collection
+	 */
+	protected static String repositoryName = "";
 	
+	/**
+	 * Get Repository Name
+	 *	
+	 * returns repo name based on the class, if repositoryName is not set
+	 * 
+	 * @return String
+	 */
 	public String getRepositoryName() {
 		
 		String name;
 		
-		if(className == ""){
+		if(repositoryName == ""){
 			String full =this.getClass().getName();
 			int mid = full.lastIndexOf ('.') + 1;
 			name = full.substring(mid) + "s";
 		} else {
-			name = className;
+			name = repositoryName;
 		}
 
 		return name;
