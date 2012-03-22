@@ -27,7 +27,7 @@ public class BudgetTest {
 	/**
 	 * The store or mongo db name
 	 */
-	public final static String STORE_NAME = "cc";
+	public final static String STORE_NAME = "badm";
     
 	/**
 	 * The scratch pad for Helper
@@ -41,7 +41,7 @@ public class BudgetTest {
 	public static void setUpClass() throws Exception {
 		try { 
 			// Set the store name since the default may be be not ours
-			NetTask.setStoreName("badm");
+			NetTask.setStoreName(STORE_NAME);
 			NetTask.setUrlBase("http://localhost:8080/netprevayle/task");
 
 			// Attempt the login
