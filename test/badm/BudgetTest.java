@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 import org.junit.*;
+import org.workplicity.entry.Entry;
 import org.workplicity.task.NetTask;
 import org.workplicity.util.Helper;
 import org.workplicity.util.WorkDate;
@@ -67,19 +68,21 @@ public class BudgetTest {
 	@Test
 	public void verify() {
 		try {
-		String repos = BridgeHelper.getBudgetFactory().create().getRepositoryName();
-
+		BudgetInterface budget = BridgeHelper.getBudgetFactory().create();
+                budget.setDescription("My Budget");
+                String repos = budget.getRepositoryName();
+                Helper.insert((Entry)budget, repos, WorkletContext.getInstance());
 		// Retrieve the budget
-		BudgetInterface budget = 
+		BudgetInterface budgetF = 
 			(Budget) Helper.fetch(repos, 0, WorkletContext.getInstance());
 
-		if(budget == null)
+		if(budgetF == null)
 			fail("budget not found");
 
-		System.out.println("budget description = '"+budget.getDescription()+"'");
+		System.out.println("budget description = '"+budgetF.getDescription()+"'");
 
 		// Verify that the name is what we expect
-		assert(budget.getDescription().equals("My Budget"));
+		assert(budgetF.getDescription().equals("My Budget"));
 
 		} catch (Exception e) {
 			fail("failed with exception: " + e);
