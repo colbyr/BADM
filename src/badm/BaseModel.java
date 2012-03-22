@@ -5,6 +5,8 @@
 package badm;
 
 import org.workplicity.entry.Entry;
+import org.workplicity.util.Helper;
+import org.workplicity.worklet.WorkletContext;
 
 /**
  * BaseModel
@@ -42,6 +44,29 @@ abstract class BaseModel extends Entry {
 		}
 
 		return name;
+	}
+	
+	/**
+	 * Get ID
+	 * 
+	 * returns the model ID
+	 * 
+	 * @return Integer
+	 */
+	@Override
+	public Integer getId() {
+		return this.id;
+	}
+	
+	/**
+	 * Commit
+	 * 
+	 * saves the model to the database
+	 * 
+	 * @return Boolean
+	 */
+	public Boolean commit() { 
+		return Helper.insert(this, getRepositoryName(), WorkletContext.getInstance());
 	}
 	
 }

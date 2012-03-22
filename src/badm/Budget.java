@@ -78,7 +78,7 @@ public class Budget extends BaseModel implements BudgetInterface {
 
     @Override
     public void delete(LineInterface li) {
-        ;
+        
     }
 
     @Override
@@ -89,11 +89,6 @@ public class Budget extends BaseModel implements BudgetInterface {
     @Override
     public void update(NoteInterface ni) {
         
-    }
-
-    @Override
-    public Integer getId() {
-        return this.id;
     }
 
     @Override
@@ -109,15 +104,6 @@ public class Budget extends BaseModel implements BudgetInterface {
     @Override
     public org.workplicity.util.WorkDate getUpdateDate() {
         return null;
-    }
-
-    @Override
-    public Boolean commit() { 
-        System.out.println(Helper.whoAmI(WorkletContext.getInstance()));
-        System.out.println(Helper.getTicket(WorkletContext.getInstance()));
-        Helper.insert(this, getRepositoryName(), WorkletContext.getInstance());
-        System.out.println(Helper.getTicket(WorkletContext.getInstance()));
-        return false;
     }
 
     public BudgetInterface create() {

@@ -50,9 +50,4 @@ public class Subline extends BaseModel implements SublineInterface {
 		throw new UnsupportedOperationException("Not supported yet.");
 	}
 
-	@Override
-	public Boolean commit() {
-		throw new UnsupportedOperationException("Not supported yet.");
-	}
-
 }

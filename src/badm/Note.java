@@ -65,9 +65,4 @@ public class Note extends BaseModel implements NoteInterface{
         return name;
     }
 
-    @Override
-    public Boolean commit() {
-        return Helper.insert(this, getRepositoryName(), WorkletContext.getInstance());
-    }
-
 }
