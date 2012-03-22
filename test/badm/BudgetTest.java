@@ -40,16 +40,16 @@ public class BudgetTest {
 	public static void setUpClass() throws Exception {
 		try { 
 			// Set the store name since the default may be be not ours
-			NetTask.setStoreName(STORE_NAME);
+			NetTask.setStoreName("badm");
+			NetTask.setUrlBase("http://localhost:8080/netprevayle/task");
 
 			// Attempt the login
-			if(!Helper.login("admin", "gaze11e", context))
+			if(!Helper.login("admin", "gazelle", context))
 				fail("login failed");
 
 		} catch (Exception e) {
 			fail("failed with exception: " + e);
 		}
-                System.out.println("Colby's computer is confused");
 	}
 
 	@AfterClass
