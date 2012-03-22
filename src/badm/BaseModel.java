@@ -69,4 +69,27 @@ abstract class BaseModel extends Entry {
 		return Helper.insert(this, getRepositoryName(), WorkletContext.getInstance());
 	}
 	
+	/**
+	 * context
+	 * 
+	 * Convenience method for getting the current context
+	 * 
+	 * @return WorkletContext
+	 */
+	public static WorkletContext context() {
+		return WorkletContext.getInstance();
+	}
+	
+	/**
+	 * find
+	 * 
+	 * fetches model by id and returns the object
+	 * 
+	 * @param id
+	 * @return BaseModel
+	 */
+	public static BaseModel find(Integer id) {
+		throw new UnsupportedOperationException("Not supported yet.");
+	}
+	
 }
