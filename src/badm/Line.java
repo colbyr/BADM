@@ -13,7 +13,7 @@ import org.workplicity.entry.Entry;
  *
  * @author idontknow5691
  */
-public class Line extends Entry implements LineInterface {
+public class Line extends BaseModel implements LineInterface {
 
 	@Override
 	public Integer getNumber() {
@@ -55,9 +55,4 @@ public class Line extends Entry implements LineInterface {
 		throw new UnsupportedOperationException("Not supported yet.");
 	}
 
-	@Override
-	public String getRepositoryName() {
-		throw new UnsupportedOperationException("Not supported yet.");
-	}
-	
 }
