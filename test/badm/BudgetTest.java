@@ -39,18 +39,7 @@ public class BudgetTest {
 
 	@BeforeClass
 	public static void setUpClass() throws Exception {
-		try { 
-			// Set the store name since the default may be be not ours
-			NetTask.setStoreName(STORE_NAME);
-			NetTask.setUrlBase("http://localhost:8080/netprevayle/task");
-
-			// Attempt the login
-			if(!Helper.login("admin", "gazelle", context))
-				fail("login failed");
-
-		} catch (Exception e) {
-			fail("failed with exception: " + e);
-		}
+		
 	}
 
 	@AfterClass
@@ -68,21 +57,35 @@ public class BudgetTest {
 	@Test
 	public void verify() {
 		try {
-		BudgetInterface budget = BridgeHelper.getBudgetFactory().create();
-                budget.setDescription("My Budget");
-                String repos = budget.getRepositoryName();
-                Helper.insert((Entry)budget, repos, WorkletContext.getInstance());
-		// Retrieve the budget
-		BudgetInterface budgetF = 
-			(Budget) Helper.fetch(repos, 0, WorkletContext.getInstance());
+                    try { 
+                            // Set the store name since the default may be be not ours
+                            NetTask.setStoreName(STORE_NAME);
+                            NetTask.setUrlBase("http://localhost:8080/netprevayle/task");
 
-		if(budgetF == null)
-			fail("budget not found");
+                            // Attempt the login
+                            if(!Helper.login("admin", "gazelle", context))
+                                    fail("login failed");
 
-		System.out.println("budget description = '"+budgetF.getDescription()+"'");
+                    } catch (Exception e) {
+                            fail("failed with exception: " + e);
+                    }
+                    System.out.println(Helper.getTicket(context));
+                    BudgetInterface budget = BridgeHelper.getBudgetFactory().create();
+                    budget.setDescription("My Budget");
+                    String repos = budget.getRepositoryName();
+                    System.out.println(budget.commit());
+                    System.out.println(Helper.getTicket(context));
+                    // Retrieve the budget
+                    BudgetInterface budgetF = 
+                            (Budget) Helper.fetch(repos, -1, WorkletContext.getInstance());
 
-		// Verify that the name is what we expect
-		assert(budgetF.getDescription().equals("My Budget"));
+                    if(budgetF == null)
+                            fail("budget not found");
+
+                    System.out.println("budget description = '"+budgetF.getDescription()+"'");
+
+                    // Verify that the name is what we expect
+                    assert(budgetF.getDescription().equals("My Budget"));
 
 		} catch (Exception e) {
 			fail("failed with exception: " + e);
@@ -329,20 +332,6 @@ public class BudgetTest {
 		Budget instance = new Budget();
 		String expResult = "";
 		String result = instance.getRepositoryName();
-		assertEquals(expResult, result);
-		// TODO review the generated test code and remove the default call to fail.
-		fail("The test case is a prototype.");
-	}
-
-	/**
-	 * Test of create method, of class Budget.
-	 */
-	@Test
-	public void testCreate() {
-		System.out.println("create");
-		Budget instance = new Budget();
-		BudgetInterface expResult = null;
-		BudgetInterface result = instance.create();
 		assertEquals(expResult, result);
 		// TODO review the generated test code and remove the default call to fail.
 		fail("The test case is a prototype.");

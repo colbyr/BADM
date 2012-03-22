@@ -21,8 +21,9 @@ import org.workplicity.worklet.WorkletContext;
  * 
  * @author Trescenzi
  */
-public class Budget extends Entry implements BudgetInterface, BudgetFactoryInterface {
+public class Budget extends Entry implements BudgetInterface {
     protected String description;
+    protected String name;
     protected ArrayList<Integer> noteIds;
     private final static String repoName = "budget";
     
@@ -38,79 +39,85 @@ public class Budget extends Entry implements BudgetInterface, BudgetFactoryInter
 
     @Override
     public ArrayList<LineInterface> fetchLines(Side side) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        BasicDBObject query = new BasicDBObject();
+        query.put("entry.budgetId",this.id); //entry.budgetId seems to be how he did this not sure why it works
+        return Helper.query("lines", JSON.serialize(query), WorkletContext.getInstance());
     }
 
     @Override
     public ArrayList<NoteInterface> fetchNotes() {
         BasicDBObject query = new BasicDBObject();
         query.put("entry.budgetId",this.id); //entry.budgetId seems to be how he did this not sure why it works
-        return Helper.query("Notes", JSON.serialize(query), WorkletContext.getInstance());
+        return Helper.query("notes", JSON.serialize(query), WorkletContext.getInstance());
     }
 
     @Override
     public LineInterface createLine() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return null;
     }
 
     @Override
     public NoteInterface createNote() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return null;
     }
 
     @Override
     public void add(NoteInterface ni) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        
     }
 
     @Override
     public void delete(NoteInterface ni) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        
     }
 
     @Override
     public void add(LineInterface li) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        
     }
 
     @Override
     public void delete(LineInterface li) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        ;
     }
 
     @Override
     public void update(LineInterface li) {
-        throw new UnsupportedOperationException("Not supported yet.");
+       
     }
 
     @Override
     public void update(NoteInterface ni) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        
     }
 
     @Override
     public Integer getId() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return this.id;
     }
 
     @Override
     public void setName(String string) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        name = string;
     }
 
     @Override
     public String getName() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return name;
     }
 
     @Override
     public org.workplicity.util.WorkDate getUpdateDate() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return null;
     }
 
     @Override
-    public Boolean commit() {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public Boolean commit() { 
+        System.out.println(Helper.whoAmI(WorkletContext.getInstance()));
+        System.out.println(Helper.getTicket(WorkletContext.getInstance()));
+        Helper.insert(this, repoName, WorkletContext.getInstance());
+        System.out.println(Helper.getTicket(WorkletContext.getInstance()));
+        return false;
     }
 
     @Override
@@ -118,9 +125,5 @@ public class Budget extends Entry implements BudgetInterface, BudgetFactoryInter
         return repoName;
     }
 
-    @Override
-    public BudgetInterface create() {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
     
 }
