@@ -21,7 +21,7 @@ import org.workplicity.worklet.WorkletContext;
  * 
  * @author Trescenzi
  */
-public class Budget extends Entry implements BudgetInterface, BudgetFactoryInterface {
+public class Budget extends BaseModel implements BudgetInterface, BudgetFactoryInterface {
     protected String description;
     protected ArrayList<Integer> noteIds;
     private final static String repoName = "budget";
@@ -111,11 +111,6 @@ public class Budget extends Entry implements BudgetInterface, BudgetFactoryInter
     @Override
     public Boolean commit() {
         throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public String getRepositoryName() {
-        return repoName;
     }
 
     @Override

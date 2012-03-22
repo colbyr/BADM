@@ -45,5 +45,8 @@ public class BADM {
 	System.out.println(context.toString());
 	
         Helper.login("admin", "gazelle", context);
+	
+	Budget b = new Budget();
+	System.out.println(b.getRepositoryName());
     }
 }
