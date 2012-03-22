@@ -49,6 +49,7 @@ public class BudgetTest {
 		} catch (Exception e) {
 			fail("failed with exception: " + e);
 		}
+                System.out.println("Colby's computer is confused");
 	}
 
 	@AfterClass
