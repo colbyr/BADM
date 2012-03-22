@@ -7,6 +7,8 @@ package badm;
 import cc.test.bridge.NoteInterface;
 import java.util.Date;
 import org.workplicity.entry.Entry;
+import org.workplicity.util.Helper;
+import org.workplicity.worklet.WorkletContext;
 
 /**
  *
@@ -17,6 +19,7 @@ public class Note extends BaseModel implements NoteInterface{
     protected String name;
     protected Date date;
     protected String author;
+    protected Integer budgetId;
     
     @Override
     public Date getDate() {
@@ -27,6 +30,14 @@ public class Note extends BaseModel implements NoteInterface{
     public String getText() {
         return text;
     }
+    
+    public void setBudgetId(Integer id){
+        budgetId=id;
+    }
+    
+    public Integer getBudgetId(){
+        return budgetId;
+    }
 
     @Override
     public void setText(String t) {
@@ -36,27 +47,27 @@ public class Note extends BaseModel implements NoteInterface{
 
     @Override
     public String getAuthor() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return author;
     }
 
     @Override
     public void setAuthor(String string) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        author = string;
     }
 
     @Override
     public void setName(String string) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        name = string;
     }
 
     @Override
     public String getName() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return name;
     }
 
     @Override
     public Boolean commit() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return Helper.insert(this, getRepositoryName(), WorkletContext.getInstance());
     }
 
 }
