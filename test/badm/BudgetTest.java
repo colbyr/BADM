@@ -34,20 +34,40 @@ public class BudgetTest {
 	 */
 	private static WorkletContext context = WorkletContext.getInstance();
 	
+	private static Budget budget;
+	
 	public BudgetTest() {
 	}
 
 	@BeforeClass
 	public static void setUpClass() throws Exception {
+		try { 
+			// Set the store name since the default may be be not ours
+                        NetTask.setStoreName(STORE_NAME);
+                        NetTask.setUrlBase("http://localhost:8080/netprevayle/task");
+
+                        // Attempt the login
+                        if(!Helper.login("admin", "gazelle", context))
+				fail("login failed");
+
+		} catch (Exception e) {
+			fail("failed with exception: " + e);
+                }
+		
+		budget = (Budget) BridgeHelper.getBudgetFactory().create();
+		
+		budget.setDescription("My Budget");
 		
 	}
 
 	@AfterClass
 	public static void tearDownClass() throws Exception {
+		Helper.logout(Helper.whoAmI(context), context);
 	}
 	
 	@Before
 	public void setUp() {
+		
 	}
 	
 	@After
@@ -55,40 +75,37 @@ public class BudgetTest {
 	}
 
 	@Test
-	public void verify() {
+	public void insert()
+	{
+		boolean successful = Helper.insert(budget, context);
+		
+		assertEquals(true, successful);
+		
+                System.out.println(budget.commit());
+                System.out.println(Helper.getTicket(context));
+	}
+	
+	@Test
+	public void fetch() {
 		try {
-                    try { 
-                            // Set the store name since the default may be be not ours
-                            NetTask.setStoreName(STORE_NAME);
-                            NetTask.setUrlBase("http://localhost:8080/netprevayle/task");
 
-                            // Attempt the login
-                            if(!Helper.login("admin", "gazelle", context))
-                                    fail("login failed");
-
-                    } catch (Exception e) {
-                            fail("failed with exception: " + e);
-                    }
-                    System.out.println("sex");
                     System.out.println(Helper.getTicket(context));
-                    BudgetInterface budget = BridgeHelper.getBudgetFactory().create(); 
+
                     String repos = budget.getRepositoryName();
-                    System.out.println(budget.commit());
+
                     System.out.println(Helper.getTicket(context));
-                    System.out.println("sexy");
-                    // Retrieve the budget
-                    budget.setDescription("My Budget");
-                    budget.commit();
-                    BudgetInterface budgetF = 
+
+                    BudgetInterface fetched_budget = 
                             (Budget) Helper.fetch(repos, -1, WorkletContext.getInstance());
 
-                    if(budgetF == null)
-                            fail("budget not found");
-
-                    System.out.println("budget description = '"+budgetF.getDescription()+"'");
+                    if(fetched_budget == null) {
+			    fail("budget not found");
+		    }
+		    
+                    System.out.println("fetched budget description = '"+fetched_budget.getDescription()+"'");
 
                     // Verify that the name is what we expect
-                    assert(budgetF.getDescription().equals("My Budget"));
+		    assertEquals(fetched_budget.getDescription(), budget.getDescription());
 
 		} catch (Exception e) {
 			fail("failed with exception: " + e);
@@ -102,11 +119,10 @@ public class BudgetTest {
 	public void testGetDescription() {
 		System.out.println("getDescription");
 		Budget instance = new Budget();
-		String expResult = "";
+		String expResult = "this is a description";
+		instance.setDescription(expResult);
 		String result = instance.getDescription();
 		assertEquals(expResult, result);
-		// TODO review the generated test code and remove the default call to fail.
-		fail("The test case is a prototype.");
 	}
 
 	/**
@@ -115,11 +131,10 @@ public class BudgetTest {
 	@Test
 	public void testSetDescription() {
 		System.out.println("setDescription");
-		String d = "";
+		String d = "herpidy derp";
 		Budget instance = new Budget();
 		instance.setDescription(d);
-		// TODO review the generated test code and remove the default call to fail.
-		fail("The test case is a prototype.");
+		assertEquals(d, instance.getDescription());
 	}
 
 	/**
@@ -133,8 +148,7 @@ public class BudgetTest {
 		ArrayList expResult = null;
 		ArrayList result = instance.fetchLines(side);
 		assertEquals(expResult, result);
-		// TODO review the generated test code and remove the default call to fail.
-		fail("The test case is a prototype.");
+		// TODO better test
 	}
 
 	/**
@@ -147,8 +161,7 @@ public class BudgetTest {
 		ArrayList expResult = null;
 		ArrayList result = instance.fetchNotes();
 		assertEquals(expResult, result);
-		// TODO review the generated test code and remove the default call to fail.
-		fail("The test case is a prototype.");
+		// TODO better test
 	}
 
 	/**
@@ -161,8 +174,7 @@ public class BudgetTest {
 		LineInterface expResult = null;
 		LineInterface result = instance.createLine();
 		assertEquals(expResult, result);
-		// TODO review the generated test code and remove the default call to fail.
-		fail("The test case is a prototype.");
+		// TODO better test
 	}
 
 	/**
@@ -175,8 +187,7 @@ public class BudgetTest {
 		NoteInterface expResult = null;
 		NoteInterface result = instance.createNote();
 		assertEquals(expResult, result);
-		// TODO review the generated test code and remove the default call to fail.
-		fail("The test case is a prototype.");
+		// TODO better test
 	}
 
 	/**
@@ -188,8 +199,7 @@ public class BudgetTest {
 		NoteInterface ni = null;
 		Budget instance = new Budget();
 		instance.add(ni);
-		// TODO review the generated test code and remove the default call to fail.
-		fail("The test case is a prototype.");
+		// TODO better test
 	}
 
 	/**
@@ -201,8 +211,7 @@ public class BudgetTest {
 		NoteInterface ni = null;
 		Budget instance = new Budget();
 		instance.delete(ni);
-		// TODO review the generated test code and remove the default call to fail.
-		fail("The test case is a prototype.");
+		// TODO better test
 	}
 
 	/**
@@ -214,8 +223,7 @@ public class BudgetTest {
 		LineInterface li = null;
 		Budget instance = new Budget();
 		instance.add(li);
-		// TODO review the generated test code and remove the default call to fail.
-		fail("The test case is a prototype.");
+		// TODO better test
 	}
 
 	/**
@@ -227,8 +235,7 @@ public class BudgetTest {
 		LineInterface li = null;
 		Budget instance = new Budget();
 		instance.delete(li);
-		// TODO review the generated test code and remove the default call to fail.
-		fail("The test case is a prototype.");
+		// TODO better test
 	}
 
 	/**
@@ -240,8 +247,7 @@ public class BudgetTest {
 		LineInterface li = null;
 		Budget instance = new Budget();
 		instance.update(li);
-		// TODO review the generated test code and remove the default call to fail.
-		fail("The test case is a prototype.");
+		// TODO better test
 	}
 
 	/**
@@ -253,8 +259,7 @@ public class BudgetTest {
 		NoteInterface ni = null;
 		Budget instance = new Budget();
 		instance.update(ni);
-		// TODO review the generated test code and remove the default call to fail.
-		fail("The test case is a prototype.");
+		// TODO better test
 	}
 
 	/**
@@ -264,11 +269,9 @@ public class BudgetTest {
 	public void testGetId() {
 		System.out.println("getId");
 		Budget instance = new Budget();
-		Integer expResult = null;
+		Integer expResult = -1;
 		Integer result = instance.getId();
 		assertEquals(expResult, result);
-		// TODO review the generated test code and remove the default call to fail.
-		fail("The test case is a prototype.");
 	}
 
 	/**
@@ -277,11 +280,10 @@ public class BudgetTest {
 	@Test
 	public void testSetName() {
 		System.out.println("setName");
-		String string = "";
+		String string = "Testing";
 		Budget instance = new Budget();
 		instance.setName(string);
-		// TODO review the generated test code and remove the default call to fail.
-		fail("The test case is a prototype.");
+		assertEquals(instance.getName(), string);
 	}
 
 	/**
@@ -291,11 +293,10 @@ public class BudgetTest {
 	public void testGetName() {
 		System.out.println("getName");
 		Budget instance = new Budget();
-		String expResult = "";
+		String expResult = "Name";
+		instance.setName(expResult);
 		String result = instance.getName();
 		assertEquals(expResult, result);
-		// TODO review the generated test code and remove the default call to fail.
-		fail("The test case is a prototype.");
 	}
 
 	/**
@@ -308,8 +309,7 @@ public class BudgetTest {
 		WorkDate expResult = null;
 		WorkDate result = instance.getUpdateDate();
 		assertEquals(expResult, result);
-		// TODO review the generated test code and remove the default call to fail.
-		fail("The test case is a prototype.");
+		// TODO better test
 	}
 
 	/**
@@ -319,11 +319,10 @@ public class BudgetTest {
 	public void testCommit() {
 		System.out.println("commit");
 		Budget instance = new Budget();
-		Boolean expResult = null;
+		Boolean expResult = false;
 		Boolean result = instance.commit();
 		assertEquals(expResult, result);
-		// TODO review the generated test code and remove the default call to fail.
-		fail("The test case is a prototype.");
+		// TODO better test
 	}
 
 	/**
@@ -333,10 +332,8 @@ public class BudgetTest {
 	public void testGetRepositoryName() {
 		System.out.println("getRepositoryName");
 		Budget instance = new Budget();
-		String expResult = "";
+		String expResult = "Budgets";
 		String result = instance.getRepositoryName();
 		assertEquals(expResult, result);
-		// TODO review the generated test code and remove the default call to fail.
-		fail("The test case is a prototype.");
 	}
 }
