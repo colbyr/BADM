@@ -124,7 +124,7 @@ public class Budget extends BaseModel implements BudgetInterface {
         throw new UnsupportedOperationException("Not supported yet.");
     }
     
-     private void addAudit(Audit audit){
+    private void addAudit(Audit audit){
         audit.setBudgetId(id);
     }
     
