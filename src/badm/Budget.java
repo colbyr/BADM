@@ -24,8 +24,16 @@ import org.workplicity.worklet.WorkletContext;
 public class Budget extends BaseModel implements BudgetInterface {
     protected String description;
     protected String name;
-    protected ArrayList<Integer> noteIds;
-    private final static String repoName = "budget";
+    protected Integer total;
+
+    public Integer getTotal() {
+        return total;
+    }
+
+    public void setTotal(Integer total) {
+        this.total = total;
+    }
+    
     
     @Override
     public String getDescription() {
@@ -41,49 +49,55 @@ public class Budget extends BaseModel implements BudgetInterface {
     public ArrayList<LineInterface> fetchLines(Side side) {
         BasicDBObject query = new BasicDBObject();
         query.put("entry.budgetId",this.id); //entry.budgetId seems to be how he did this not sure why it works
-        return Helper.query("Lines", JSON.serialize(query), WorkletContext.getInstance());
+        System.out.println("query:"+JSON.serialize(query));
+        return Helper.query(new Line().getRepositoryName(), JSON.serialize(query), WorkletContext.getInstance());
     }
 
     @Override
     public ArrayList<NoteInterface> fetchNotes() {
         BasicDBObject query = new BasicDBObject();
         query.put("entry.budgetId",this.id); //entry.budgetId seems to be how he did this not sure why it works
-        return Helper.query("Notes", JSON.serialize(query), WorkletContext.getInstance());
+        return Helper.query(new Note().getRepositoryName(), JSON.serialize(query), WorkletContext.getInstance());
     }
 
     @Override
     public LineInterface createLine() {
-        return null;
+        return new Line();
     }
 
     @Override
     public NoteInterface createNote() {
-        return null;
+        return new Note();
     }
 
     @Override
     public void add(NoteInterface ni) {
-        
+        Note note = (Note) ni;
+        note.setBudgetId(this.id);
     }
 
     @Override
     public void delete(NoteInterface ni) {
-        
+        Note note = (Note) ni;
+        Helper.delete(note, note.getRepositoryName(), WorkletContext.getInstance());
     }
 
     @Override
     public void add(LineInterface li) {
-        
+        Line line = (Line) li;
+        //line.setBudgetId(this.id);
     }
 
     @Override
     public void delete(LineInterface li) {
-        
+        Line line = (Line) li;
+        Helper.delete(line, line.getRepositoryName(), WorkletContext.getInstance());
     }
 
     @Override
     public void update(LineInterface li) {
-       
+        Line line = (Line) li;
+        Helper.insert(line, line.getRepositoryName(), WorkletContext.getInstance());
     }
 
     @Override
@@ -108,6 +122,20 @@ public class Budget extends BaseModel implements BudgetInterface {
 
     public BudgetInterface create() {
         throw new UnsupportedOperationException("Not supported yet.");
+    }
+    
+     private void addAudit(Audit audit){
+        audit.setBudgetId(id);
+    }
+    
+    public void update(Audit audit){
+        super.update(audit);
+        //TODO add totals and stuffs
+        addAudit(audit);
+    }
+    
+    public static Budget find(Integer id) {
+	return (Budget) Helper.fetch("Budgets", id, context());
     }
     
 }

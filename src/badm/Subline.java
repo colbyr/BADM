@@ -58,11 +58,8 @@ public class Subline extends BaseModel implements SublineInterface {
 	public String getName() {
 		return name;
 	}
-
 	public static Subline find(Integer id) {
-		Subline result;
-		result = (Subline) Helper.fetch("Sublines", id, context());
-		return result;
+            return (Subline) Helper.fetch("Sublines", id, context());
 	}
 	
 }

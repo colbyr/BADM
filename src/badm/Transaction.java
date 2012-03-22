@@ -68,9 +68,7 @@ public class Transaction extends BaseModel implements TransactionInterface {
 	}
 
 	public static Transaction find(Integer id) {
-		Transaction result;
-		result = (Transaction) Helper.fetch("Transactions", id, context());
-		return result;
+		return (Transaction) Helper.fetch("Transactions", id, context());
 	}
 	
 }

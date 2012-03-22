@@ -64,5 +64,8 @@ public class Note extends BaseModel implements NoteInterface{
     public String getName() {
         return name;
     }
+    public static Note find(Integer id) {
+            return (Note) Helper.fetch("Notes", id, context());
+	}
 
 }

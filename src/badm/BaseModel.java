@@ -91,5 +91,9 @@ abstract class BaseModel extends Entry {
 	public static BaseModel find(Integer id) {
 		throw new UnsupportedOperationException("Not supported yet.");
 	}
+        
+        public void update(Audit audit){
+            audit.getUpdated().add(0, id);
+        }
 	
 }
