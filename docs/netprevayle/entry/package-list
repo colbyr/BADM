@@ -1,0 +1,7 @@
+org.workplicity.entry
+org.workplicity.entry.event
+org.workplicity.repos
+org.workplicity.repos.mongo
+org.workplicity.task
+org.workplicity.util
+org.workplicity.worklet
