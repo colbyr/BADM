@@ -14,7 +14,9 @@ import org.workplicity.util.Helper;
 import org.workplicity.util.MongoHelper;
 
 /**
- *
+ * Represents a Subline in the model. A subline is a specific 
+ * entry in a line. A subline is broken up into transactions which then 
+ * contain the values for the subline.
  * @author idontknow5691
  */
 public class Subline extends Line implements SublineInterface {
@@ -127,5 +129,12 @@ public class Subline extends Line implements SublineInterface {
                     System.out.println("couldnt find Subline #"+id+" "+e);
             }
             return null;	
+        }
+        
+        @Override
+        public void update(Audit audit){
+            super.update(audit);
+            // TODO change subline vaules
+            Line.find(lineId).update(audit);
         }
 }

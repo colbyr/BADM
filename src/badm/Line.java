@@ -15,7 +15,9 @@ import org.workplicity.worklet.WorkletContext;
 
 
 /**
- *
+ * Represents a line in the data model. A line is a category of either
+ * expenditures or income. The actual values for the pieces of the line
+ * exist in the sublines. 
  * @author idontknow5691
  */
 public class Line extends BaseModel implements LineInterface {

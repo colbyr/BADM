@@ -11,7 +11,11 @@ import org.workplicity.util.Helper;
 import org.workplicity.util.MongoHelper;
 
 /**
- *
+ * A Transaction. This represents a single change in value for a Budget.
+ * Depending on the type of the Budget and how often the Budget is to be
+ * updated the number of Transactions will change. The only place that a number
+ * amount can change is in a Transaction and the change will then "bubble up" as
+ * an Audit changing the values of other objects as it goes.
  * @author idontknow5691
  */
 public class Transaction extends BaseModel implements TransactionInterface {
@@ -74,7 +78,15 @@ public class Transaction extends BaseModel implements TransactionInterface {
 	@Override
 	public void setAmount(Double amount) {
 		this.amount = amount;
+                update(new Audit());
 	}
+        
+        @Override
+        public void update(Audit audit){
+            super.update(audit);
+            // TODO asign values to audit
+            Subline.find(sublineId).update(audit);
+        }
 
         /**
          * 
