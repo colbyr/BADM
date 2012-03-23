@@ -10,6 +10,9 @@ import org.workplicity.util.Helper;
 
 /**
  * Note
+ * 
+ * Model of user notes, belonging to a budget
+ * 
  * @author Trescenzi
  */
 public class Note extends BaseModel implements NoteInterface {
