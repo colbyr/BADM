@@ -4,6 +4,7 @@
  */
 package assignment2;
 
+import badm.Accounts;
 import badm.BridgeHelper;
 import badm.Budget;
 import static org.junit.Assert.assertEquals;
@@ -45,19 +46,7 @@ public class Test3 {
 	
 	@Test
 	public void login(){
-		
-		try { 
-			// Set the store name since the default may be be not ours
-                        NetTask.setStoreName("badm");
-                        NetTask.setUrlBase("http://localhost:8080/netprevayle/task");
-
-                        // Attempt the login
-                        if(!Helper.login("admin", "gazelle", context))
-				fail("login failed");
-
-		} catch (Exception e) {
-			fail("failed with exception: " + e);
-		}
+		Accounts.login();
 	}
 	
 	@Test

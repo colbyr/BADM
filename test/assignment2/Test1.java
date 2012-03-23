@@ -4,6 +4,7 @@
  */
 package assignment2;
 
+import badm.Accounts;
 import static org.junit.Assert.fail;
 import org.junit.*;
 import org.workplicity.task.NetTask;
@@ -41,19 +42,7 @@ public class Test1 {
 	
 	@Test
 	public void login(){
-		
-		try { 
-			// Set the store name since the default may be be not ours
-                        NetTask.setStoreName("badm");
-                        NetTask.setUrlBase("http://localhost:8080/netprevayle/task");
-
-                        // Attempt the login
-                        if(!Helper.login("admin", "gazelle", context))
-				fail("login failed");
-
-		} catch (Exception e) {
-			fail("failed with exception: " + e);
-		}
+		assert(Accounts.login());
 	}
 	
 	
