@@ -96,7 +96,7 @@ public class Subline extends Line implements SublineInterface {
 	@Override
 	public void add(TransactionInterface ti) {
 		Transaction t = (Transaction) ti;
-		t.setSubline(this);
+		t.setSublineId(id);
 	}
         
         /**
