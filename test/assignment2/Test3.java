@@ -86,8 +86,8 @@ public class Test3 {
 		try{
 			budget.setDescription("I'M A BUDGET!!!!!!!!");
 			budget.setTotal(1337);
-			id = budget.getId();
 			budget.commit();
+                        id = budget.getId();
 		}catch(Exception e){
 			fail("cannot sync budget" + e);
 		}
