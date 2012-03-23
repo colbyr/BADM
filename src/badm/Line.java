@@ -23,32 +23,66 @@ public class Line extends BaseModel implements LineInterface {
     String name;
     Integer budgetId;
     Integer total;
-
+    
+    /**
+     * 
+     * @return The total value of the Line
+     */
     public Integer getTotal() {
         return total;
     }
 
+    /**
+     * 
+     * @param total The new total value of the Line
+     */
     public void setTotal(Integer total) {
         this.total = total;
     }
-
+    
+    /**
+     * 
+     * @return the line number 
+     */
     @Override
     public Integer getNumber() {
             return number;
     }
     
+    /**
+     * 
+     * @param n The new line number
+     */
     public void setNumber(Integer n){
         number = n;
     }
     
+    /**
+     * Associates a Line with a Budget. Must be called if the 
+     * Line is to be paired with a Budget unless you already
+     * called Budget.createLine() or Budget.add(Line) with this
+     * specific line.
+     * @param id The new Budget to link to this Line
+     */
     public void setBudgetId(Integer id){
         budgetId=id;
     }
     
+    /**
+     * Gets the id for the Budget that this Line is 
+     * linked to. Used for queries for finding both the Line
+     * and the Budget.
+     * @return Id of the linked Budget
+     */
     public Integer getBudgetId(){
         return budgetId;
     }
-
+    
+    /**
+     * Returns all the Sublines that are linked to this Line.
+     * If no sublines exist null is returned.
+     * @return Linked Sublines/null
+     */
     @Override
     public ArrayList<SublineInterface> fetchSublines() {
         BasicDBObject query = new BasicDBObject();
@@ -57,50 +91,82 @@ public class Line extends BaseModel implements LineInterface {
         try{
             return MongoHelper.query(query,BaseModel.getStoreName(),new Subline().getRepositoryName());
         }catch(Exception e){
-                System.out.println("couldnt fetch sublines"+e);
+                System.out.println("Couldnt fetch sublines of Line #"+number
+                        +" because of error:"+e);
         }
         return null;
     }
-
+    
+    /**
+     * Makes a new Subline and links it to the calling Line.
+     * @return a new Subline
+     */
     @Override
     public SublineInterface createSubline() {
-           return new Subline();
+           Subline subline = new Subline();
+//           subline.setLineId(id);
+           return subline;
     }
 
+    /**
+     * Links a Subline to the calling Line
+     * @param si The Subline to be linked.
+     */
     @Override
     public void add(SublineInterface si) {
             Subline subline = (Subline)si;
-            //subline.setLineId(id);
+//            subline.setLineId(id);
     }
 
+    /**
+     * Deletes a Subline.  
+     * @param si The Subline to be deleted
+     */
     @Override
     public void delete(SublineInterface si) {
             Subline subline = (Subline) si;
             try{
-            MongoHelper.delete(subline, getStoreName(), subline.getRepositoryName());
+                subline.delete();
             }catch(Exception e){
                 System.out.println("Failed to delete subline #" + subline.getNumber()+
                         "."+subline.getSubNumber()+ "because of error:"+e);
             }
     }
 
+    /**
+     * 
+     * @param string The new name of the Line
+     */
     @Override
     public void setName(String string) {
             name = string;
     }
 
+    /**
+     * 
+     * @return the name of the Line 
+     */
     @Override
     public String getName() {
             return name;
     } 
     
+    /**
+     * Updates the Line and then passes the Audit up to the linked Budget.
+     * @param audit The Audit from which the Line will update itself
+     */
     @Override
     public void update(Audit audit){
         super.update(audit);
         Budget.find(budgetId).update(audit);
     }
     
-   public static Line find(Integer id) {	
+    /**
+     * Finds a Line in the Lines collection.
+     * @param id The id of the Line to be found.
+     * @return The Line or null if not found.
+     */
+    public static Line find(Integer id) {	
         BasicDBObject query = new BasicDBObject();
         query.put("entry.id", id);
         try{
