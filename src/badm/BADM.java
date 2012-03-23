@@ -4,7 +4,6 @@
  */
 package badm;
 
-import java.util.ArrayList;
 import java.util.Properties;
 import org.workplicity.task.NetTask;
 import org.workplicity.util.Helper;

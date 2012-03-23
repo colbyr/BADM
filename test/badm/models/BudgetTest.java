@@ -15,7 +15,6 @@ import java.util.ArrayList;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 import org.junit.*;
-import org.workplicity.entry.Entry;
 import org.workplicity.task.NetTask;
 import org.workplicity.util.Helper;
 import org.workplicity.util.WorkDate;

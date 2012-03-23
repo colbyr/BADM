@@ -6,9 +6,7 @@ package badm;
 
 import cc.test.bridge.NoteInterface;
 import java.util.Date;
-import org.workplicity.entry.Entry;
 import org.workplicity.util.Helper;
-import org.workplicity.worklet.WorkletContext;
 
 /**
  *

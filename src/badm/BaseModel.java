@@ -6,10 +6,8 @@ package badm;
 
 
 import org.codehaus.jackson.annotate.JsonIgnore;
-import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 import org.workplicity.entry.Entry;
 import org.workplicity.task.NetTask;
-import org.workplicity.util.Helper;
 import org.workplicity.util.MongoHelper;
 import org.workplicity.worklet.WorkletContext;
 

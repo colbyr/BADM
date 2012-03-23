@@ -5,14 +5,11 @@
 package badm;
 
 import cc.test.bridge.BridgeConstants.Side;
-import cc.test.bridge.BudgetFactoryInterface;
 import cc.test.bridge.BudgetInterface;
 import cc.test.bridge.LineInterface;
 import cc.test.bridge.NoteInterface;
 import com.mongodb.BasicDBObject;
-import com.mongodb.util.JSON;
 import java.util.ArrayList;
-import org.workplicity.entry.Entry;
 import org.workplicity.util.Helper;
 import org.workplicity.util.MongoHelper;
 import org.workplicity.worklet.WorkletContext;
