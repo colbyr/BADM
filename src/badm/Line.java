@@ -12,6 +12,7 @@ import org.workplicity.entry.Entry;
 import org.workplicity.worklet.WorkletContext;
 import org.workplicity.util.Helper;
 import com.mongodb.util.JSON;
+import org.workplicity.util.MongoHelper;
 
 
 
@@ -53,8 +54,14 @@ public class Line extends BaseModel implements LineInterface {
     @Override
     public ArrayList<SublineInterface> fetchSublines() {
         BasicDBObject query = new BasicDBObject();
-        query.put("entry.lineId",this.id); //entry.budgetId seems to be how he did this not sure why it works
-            return Helper.query(new Subline().getRepositoryName(),JSON.serialize(query),  WorkletContext.getInstance());
+        query.put("entry.lineId", id);
+        System.out.println(id);
+        try{
+            return MongoHelper.query(query,BaseModel.getStoreName(),new Subline().getRepositoryName());
+        }catch(Exception e){
+                System.out.println("couldnt fetch sublines"+e);
+        }
+        return null;
     }
 
     @Override
