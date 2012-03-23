@@ -172,7 +172,7 @@ public class Line extends BaseModel implements LineInterface {
         try{
             return (Line) MongoHelper.query(query,BaseModel.getStoreName(),new Line().getRepositoryName()).get(0);
         }catch(Exception e){
-                System.out.println("couldnt find budget #"+id+" "+e);
+                System.out.println("couldnt find line #"+id+" "+e);
         }
         return null;
     }
