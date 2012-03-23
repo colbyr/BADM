@@ -49,16 +49,25 @@ public class Budget extends BaseModel implements BudgetInterface {
     @Override
     public ArrayList<LineInterface> fetchLines(Side side) {
         BasicDBObject query = new BasicDBObject();
-        query.put("entry.budgetId",this.id); //entry.budgetId seems to be how he did this not sure why it works
-        System.out.println("query:"+JSON.serialize(query));
-        return Helper.query(new Line().getRepositoryName(), JSON.serialize(query), WorkletContext.getInstance());
+        query.put("entry.budgetId", id);
+        try{
+            return MongoHelper.query(query,BaseModel.getStoreName(),new Line().getRepositoryName());
+        }catch(Exception e){
+                System.out.println("couldn't fetch lines"+e);
+        }
+        return null;
     }
 
     @Override
     public ArrayList<NoteInterface> fetchNotes() {
         BasicDBObject query = new BasicDBObject();
-        query.put("entry.budgetId",this.id); //entry.budgetId seems to be how he did this not sure why it works
-        return Helper.query(new Note().getRepositoryName(), JSON.serialize(query), WorkletContext.getInstance());
+        query.put("entry.budgetId", id);
+        try{
+            return MongoHelper.query(query,BaseModel.getStoreName(),new Note().getRepositoryName());
+        }catch(Exception e){
+                System.out.println("couldn't fetch notes"+e);
+        }
+        return null;
     }
 
     @Override
@@ -140,7 +149,7 @@ public class Budget extends BaseModel implements BudgetInterface {
 	    query.put("entry.id", id);
 	    System.out.println(id);
 	    try{
-		return (Budget) MongoHelper.query(query, "badm",new Budget().getRepositoryName()).get(0);
+		return (Budget) MongoHelper.query(query,BaseModel.getStoreName(),new Budget().getRepositoryName()).get(0);
 	    }catch(Exception e){
 		    System.out.println("couldnt find budget #"+id+" "+e);
 	    }
