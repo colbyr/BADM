@@ -4,8 +4,13 @@
  */
 package badm;
 
+
+import org.codehaus.jackson.annotate.JsonIgnore;
+import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 import org.workplicity.entry.Entry;
+import org.workplicity.task.NetTask;
 import org.workplicity.util.Helper;
+import org.workplicity.util.MongoHelper;
 import org.workplicity.worklet.WorkletContext;
 
 /**
@@ -22,8 +27,9 @@ abstract class BaseModel extends Entry {
 	 *
 	 * name of the model's Mongo collection
 	 */
-	protected static String repositoryName = "";
 	
+	@JsonIgnore
+	protected String repositoryName = "";	
 	/**
 	 * Get Repository Name
 	 *	
@@ -65,8 +71,17 @@ abstract class BaseModel extends Entry {
 	 * 
 	 * @return Boolean
 	 */
-	public Boolean commit() { 
-		return Helper.insert(this, getRepositoryName(), WorkletContext.getInstance());
+	public Boolean commit() {
+		Integer something;
+		try {
+			something = MongoHelper.insert(this,BaseModel.getStoreName(), getRepositoryName());
+		} catch(Exception e) {
+			System.out.println("Budget has not been commited because of error" + e);
+			return false;
+		}
+		
+		System.out.println(something);
+		return (something > -1) ? true : false;
 	}
 	
 	/**
@@ -76,7 +91,7 @@ abstract class BaseModel extends Entry {
 	 * 
 	 * @return WorkletContext
 	 */
-	public static WorkletContext context() {
+	public static WorkletContext context(){
 		return WorkletContext.getInstance();
 	}
 	
@@ -94,6 +109,11 @@ abstract class BaseModel extends Entry {
         
         public void update(Audit audit){
             audit.getUpdated().add(0, id);
+        }
+        
+        @JsonIgnore
+        public static String getStoreName(){
+            return NetTask.getStoreName();
         }
 	
 }

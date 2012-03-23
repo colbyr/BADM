@@ -43,10 +43,27 @@ public class Audit extends BaseModel {
         public void setUpdated(ArrayList<Integer> updated) {
             this.updated = updated;
         }
+	public Integer budgetId;
+	public ArrayList<Integer> updated;
+	public String description;
+
+	public void setBudgetId(Integer budgetId) {
+		this.budgetId = budgetId;
+	}
+	
+	public Integer getBudgetId() {
+		return budgetId;
+	}
 	
 	public int getTimestamp()
 	{
 		return timestamp;
 	}
-	
+
+
+	public ArrayList getUpdated()
+	{
+		return updated;
+	}
+
 }

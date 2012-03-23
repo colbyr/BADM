@@ -14,6 +14,7 @@ import com.mongodb.util.JSON;
 import java.util.ArrayList;
 import org.workplicity.entry.Entry;
 import org.workplicity.util.Helper;
+import org.workplicity.util.MongoHelper;
 import org.workplicity.worklet.WorkletContext;
 
 /**
@@ -48,16 +49,25 @@ public class Budget extends BaseModel implements BudgetInterface {
     @Override
     public ArrayList<LineInterface> fetchLines(Side side) {
         BasicDBObject query = new BasicDBObject();
-        query.put("entry.budgetId",this.id); //entry.budgetId seems to be how he did this not sure why it works
-        System.out.println("query:"+JSON.serialize(query));
-        return Helper.query(new Line().getRepositoryName(), JSON.serialize(query), WorkletContext.getInstance());
+        query.put("entry.budgetId", id);
+        try{
+            return MongoHelper.query(query,BaseModel.getStoreName(),new Line().getRepositoryName());
+        }catch(Exception e){
+                System.out.println("couldn't fetch lines"+e);
+        }
+        return null;
     }
 
     @Override
     public ArrayList<NoteInterface> fetchNotes() {
         BasicDBObject query = new BasicDBObject();
-        query.put("entry.budgetId",this.id); //entry.budgetId seems to be how he did this not sure why it works
-        return Helper.query(new Note().getRepositoryName(), JSON.serialize(query), WorkletContext.getInstance());
+        query.put("entry.budgetId", id);
+        try{
+            return MongoHelper.query(query,BaseModel.getStoreName(),new Note().getRepositoryName());
+        }catch(Exception e){
+                System.out.println("couldn't fetch notes"+e);
+        }
+        return null;
     }
 
     @Override
@@ -124,7 +134,7 @@ public class Budget extends BaseModel implements BudgetInterface {
         throw new UnsupportedOperationException("Not supported yet.");
     }
     
-     private void addAudit(Audit audit){
+    private void addAudit(Audit audit){
         audit.setBudgetId(id);
     }
     
@@ -135,7 +145,15 @@ public class Budget extends BaseModel implements BudgetInterface {
     }
     
     public static Budget find(Integer id) {
-	return (Budget) Helper.fetch("Budgets", id, context());
+	    BasicDBObject query = new BasicDBObject();
+	    query.put("entry.id", id);
+	    System.out.println(id);
+	    try{
+		return (Budget) MongoHelper.query(query,BaseModel.getStoreName(),new Budget().getRepositoryName()).get(0);
+	    }catch(Exception e){
+		    System.out.println("couldnt find budget #"+id+" "+e);
+	    }
+	    return null;
     }
-    
+
 }
