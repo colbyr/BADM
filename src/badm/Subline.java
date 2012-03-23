@@ -6,8 +6,12 @@ package badm;
 
 import cc.test.bridge.SublineInterface;
 import cc.test.bridge.TransactionInterface;
+import com.mongodb.BasicDBObject;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.workplicity.util.Helper;
+import org.workplicity.util.MongoHelper;
 
 /**
  *
@@ -17,10 +21,19 @@ public class Subline extends BaseModel implements SublineInterface {
 
 	protected String name;
 	protected Integer subNumber;
-	
+
 	@Override
 	public ArrayList<TransactionInterface> fetchTransactions() {
-		throw new UnsupportedOperationException("Not supported yet.");
+		BasicDBObject query = new BasicDBObject();
+		query.put("entry.budgetId", id);
+		ArrayList<TransactionInterface> result;
+		try {
+			result = MongoHelper.query(query, BaseModel.getStoreName(), new Line().getRepositoryName());
+		} catch (Exception e) {
+			result = null;
+			System.out.println("couldn't fetch lines" + e);
+		}
+		return result;
 	}
 
 	@Override
@@ -38,13 +51,18 @@ public class Subline extends BaseModel implements SublineInterface {
 	@Override
 	public void add(TransactionInterface ti) {
 		Transaction t = (Transaction) ti;
-		throw new UnsupportedOperationException("Not supported yet.");
+		t.setSubline(this);
 	}
 
 	@Override
 	public void delete(TransactionInterface ti) {
 		Transaction t = (Transaction) ti;
 		Helper.delete(t, t.getRepositoryName(), context());
+		try {
+			MongoHelper.delete(t, BaseModel.getStoreName(), this.getRepositoryName());
+		} catch (Exception e) {
+			System.out.println("couldn't delete transaction - " + e);
+		}
 	}
 
 	@Override
@@ -56,8 +74,8 @@ public class Subline extends BaseModel implements SublineInterface {
 	public String getName() {
 		return name;
 	}
+
 	public static Subline find(Integer id) {
-            return (Subline) Helper.fetch("Sublines", id, context());
+		return (Subline) Helper.fetch("Sublines", id, context());
 	}
-	
 }

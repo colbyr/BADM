@@ -101,7 +101,7 @@ public class BudgetTest {
                     System.out.println(Helper.getTicket(context));
 
                     BudgetInterface fetched_budget = 
-                            (Budget) Helper.fetch(repos, -1, WorkletContext.getInstance());
+                            (Budget) Helper.fetch(repos, budget.getId(), WorkletContext.getInstance());
 
                     if(fetched_budget == null) {
 			    fail("budget not found");

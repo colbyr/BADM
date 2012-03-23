@@ -27,7 +27,8 @@ abstract class BaseModel extends Entry {
 	 */
 	
 	@JsonIgnore
-	protected String repositoryName = "";	
+	protected String repositoryName = "";
+	
 	/**
 	 * Get Repository Name
 	 *	
@@ -105,12 +106,17 @@ abstract class BaseModel extends Entry {
 		throw new UnsupportedOperationException("Not supported yet.");
 	}
         
+	/**
+	 * Update
+	 * 
+	 * @param audit 
+	 */
         public void update(Audit audit){
             audit.getUpdated().add(0, id);
         }
         
         @JsonIgnore
-        public static String getStoreName(){
+        public static String getStoreName() {
             return NetTask.getStoreName();
         }
 	

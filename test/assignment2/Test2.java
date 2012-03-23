@@ -6,8 +6,8 @@ package assignment2;
 
 import badm.BridgeHelper;
 import badm.Budget;
-import org.junit.*;
 import static org.junit.Assert.fail;
+import org.junit.*;
 import org.workplicity.task.NetTask;
 import org.workplicity.util.Helper;
 import org.workplicity.worklet.WorkletContext;
