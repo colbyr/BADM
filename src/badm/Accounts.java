@@ -13,90 +13,102 @@
 //You should have received a copy of the GNU General Public License
 //along with this library; if not, write to the Free Software
 //Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
-
 package badm;
 
 import java.util.Properties;
 import org.workplicity.entry.User;
 import org.workplicity.repos.mongo.Repository;
 import org.workplicity.task.NetTask;
+import org.workplicity.util.Helper;
 import org.workplicity.util.MongoHelper;
 
 /**
  * This class implements accounts repository for Cloud Count.
+ *
  * @author Ron Coleman
  */
 public class Accounts extends Repository {
-	
-    public final static String TITLE = "Accounts";
-    public final static String KEY_USER_BASE = "system.user.";
-    public final static String KEY_PASSWORD_BASE = "accounts.password.";
-    public final static int ACCOUNT_ADMIN_ID = 0;
-    public final static int ACCOUNT_SYSTEM_ID = 1;
 
-    /**
-     * Initializes the repository.
-     * @param props Properties
-     * @throws Exception
-     */
-    @Override
-    public void init(Properties props) throws Exception {
-        // Get the db (or store or system) name
-        String dbName = props.getProperty("system.name");
-	
-	
-	
-        System.out.println("ACCOUNTS init invoked for db = '" + dbName+"'");
+	public final static String TITLE = "Accounts";
+	public final static String KEY_USER_BASE = "system.user.";
+	public final static String KEY_PASSWORD_BASE = "accounts.password.";
+	public final static int ACCOUNT_ADMIN_ID = 0;
+	public final static int ACCOUNT_SYSTEM_ID = 1;
+	public static String dbUrl = "http://localhost:8080/netprevayle/task";
+	public static String dbName = "badm";
+	public static String user = "admin";
+	public static String password = "gaze11e";
+	public static String className = "User";
 
-        // If the accounts collection is empty, add the default accounts
-        boolean populated = MongoHelper.isPopulated(dbName, NetTask.REPOS_ACCOUNTS);
-        System.out.println("collection '"+NetTask.REPOS_ACCOUNTS+"' populated ="+populated);
+	/**
+	 * Initializes the repository.
+	 *
+	 * @param props Properties
+	 * @throws Exception
+	 */
+	@Override
+	public void init(Properties props) {
 
-        if(populated)
-            return;
+		if (populated()) {
+			return;
+		}
+		
+		System.out.println("ACCOUNTS init invoked for db = '" + dbName + "'");
 
-        // Create the default accounts from the properties
-        System.out.println("populating collection '"+ NetTask.REPOS_ACCOUNTS+"'");
-        int i = 0;
+		// Create the default accounts from the properties
+		System.out.println("populating collection '" + NetTask.REPOS_ACCOUNTS + "'");
+		int i = 0;
 
-        while (true) {
-                String key = KEY_USER_BASE + i;
+		System.out.println("name=" + user + " passwd=" + password + " className=" + className);
 
-                String value = props.getProperty(key);
+		// Create the user
+		User admin = new User(); //(User) aclass.newInstance();
+		admin.setLogname(user);
+		admin.setPassword(password);
 
-                System.out.println("property key "+key+" has value = "+value);
+		// Insert the user into the accounts repository
+		try {
+			MongoHelper.insert(admin, dbName, TITLE);
+		} catch (Exception e) {
+			System.out.println("Insert failed: " + e);
+		}
 
-                if (value == null)
-                    break;
+		System.out.println("user id = " + admin.getId());
 
-                // Parse the value as: logname password class
-                // Note: class must be a subclass of User
-                String[] values = value.split(" ");
+		i++;
 
-                String name = values[0];
+		System.out.println("init done!");
+	}
 
-                String passwd = values[1];
+	public boolean populated() {
+		// If the accounts collection is empty, add the default accounts
+		try {
+			return MongoHelper.isPopulated(dbName, NetTask.REPOS_ACCOUNTS);
+		} catch (Exception e) {
+			System.out.println("Populated check failed: " + e);
+			return false;
+		}
+	}
 
-                String className = values[2];
+	public static boolean login() {
+		Accounts accounts = new Accounts();
+		try {
+			// Set the store name since the default may be be not ours
+			NetTask.setStoreName(dbName);
+			NetTask.setUrlBase(dbUrl);
 
-                System.out.println("name="+name+" passwd="+passwd+" className="+className);
+			// Attempt the login
+			if (Helper.login(user, password, BaseModel.context())) {
+				return true;
+			} else {
+				accounts.init(null);
+				return Helper.login(user, password, BaseModel.context());
+			}
 
-                //Class aclass = Class.forName(className);
-
-                // Create the user
-                User user = new User(); //(User) aclass.newInstance();
-                user.setLogname(name);
-                user.setPassword(passwd);
-
-                // Insert the user into the accounts repository
-                MongoHelper.insert(user, dbName, TITLE);
-
-                System.out.println("user id = "+user.getId());
-                
-                i++;
-        }
-        
-        System.out.println("init done!");
-    }
-
+		} catch (Exception e) {
+			System.out.println("Login failed: " + e);
+			accounts.init(null);
+			return Helper.login(user, password, BaseModel.context());
+		}
+	}
 }
