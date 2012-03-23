@@ -2,8 +2,9 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package badm;
+package badm.models;
 
+import badm.Line;
 import cc.test.bridge.SublineInterface;
 import java.util.ArrayList;
 import org.junit.*;

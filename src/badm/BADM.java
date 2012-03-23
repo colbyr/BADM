@@ -29,7 +29,7 @@ public class BADM {
 	
 	// set properties
 	props.setProperty("system.name", "badm");
-	props.setProperty("system.user.0", "admin gazelle User");
+	props.setProperty("system.user.0", "admin gaze11e User");
 	
 	// init accounts
 	acc.init(props);
@@ -44,7 +44,7 @@ public class BADM {
 	
 	System.out.println(context.toString());
 	
-        Helper.login("admin", "gazelle", context);
+        Helper.login("admin", "gaze11e", context);
 	
 	Budget b = new Budget();
 	System.out.println(b.getRepositoryName());

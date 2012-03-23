@@ -14,6 +14,7 @@ import com.mongodb.util.JSON;
 import java.util.ArrayList;
 import org.workplicity.entry.Entry;
 import org.workplicity.util.Helper;
+import org.workplicity.util.MongoHelper;
 import org.workplicity.worklet.WorkletContext;
 
 /**
@@ -135,7 +136,15 @@ public class Budget extends BaseModel implements BudgetInterface {
     }
     
     public static Budget find(Integer id) {
-	return (Budget) Helper.fetch("Budgets", id, context());
+	    BasicDBObject query = new BasicDBObject();
+	    query.put("entry.id", id);
+	    System.out.println(id);
+	    try{
+		return (Budget) MongoHelper.query(query, "badm",new Budget().getRepositoryName()).get(0);
+	    }catch(Exception e){
+		    System.out.println("couldnt find budget #"+id+" "+e);
+	    }
+	    return null;
     }
-    
+
 }
