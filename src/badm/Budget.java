@@ -69,12 +69,16 @@ public class Budget extends BaseModel implements BudgetInterface {
 
     @Override
     public LineInterface createLine() {
-        return new Line();
+	Line ln = new Line();
+	ln.setBudgetId(id);
+        return ln;
     }
 
     @Override
     public NoteInterface createNote() {
-        return new Note();
+	Note n = new Note();
+	n.setBudgetId(id);
+        return n;
     }
 
     @Override

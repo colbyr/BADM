@@ -6,14 +6,13 @@ package badm.models;
 
 import badm.BridgeHelper;
 import badm.Budget;
+import badm.Line;
 import badm.Note;
 import cc.test.bridge.BridgeConstants.Side;
-import cc.test.bridge.BudgetInterface;
 import cc.test.bridge.LineInterface;
 import cc.test.bridge.NoteInterface;
 import java.util.ArrayList;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
+import static org.junit.Assert.*;
 import org.junit.*;
 import org.workplicity.task.NetTask;
 import org.workplicity.util.Helper;
@@ -150,9 +149,8 @@ public class BudgetTest {
 		System.out.println("fetchLines");
 		Side side = null;
 		Budget instance = new Budget();
-		ArrayList expResult = null;
 		ArrayList result = instance.fetchLines(side);
-		assertEquals(expResult, result);
+		assertNotNull(result);
 		// TODO better test
 	}
 
@@ -163,9 +161,8 @@ public class BudgetTest {
 	public void testFetchNotes() {
 		System.out.println("fetchNotes");
 		Budget instance = new Budget();
-		ArrayList expResult = null;
 		ArrayList result = instance.fetchNotes();
-		assertEquals(expResult, result);
+		assertNotNull(result);
 		// TODO better test
 	}
 
@@ -175,10 +172,9 @@ public class BudgetTest {
 	@Test
 	public void testCreateLine() {
 		System.out.println("createLine");
-		Budget instance = new Budget();
-		LineInterface expResult = null;
-		LineInterface result = instance.createLine();
-		assertEquals(expResult, result);
+		Budget b = new Budget();
+		Line result = (Line) b.createLine();
+		assertEquals(result.getBudgetId(), b.getId());
 		// TODO better test
 	}
 
@@ -189,9 +185,8 @@ public class BudgetTest {
 	public void testCreateNote() {
 		System.out.println("createNote");
 		Budget instance = new Budget();
-		NoteInterface expResult = null;
-		NoteInterface result = instance.createNote();
-		assertEquals(expResult, result);
+		Note result = (Note) instance.createNote();
+		assertEquals(instance.getId(), result.getBudgetId());
 		// TODO better test
 	}
 
