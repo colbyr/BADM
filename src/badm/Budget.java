@@ -96,7 +96,7 @@ public class Budget extends BaseModel implements BudgetInterface {
     @Override
     public void add(LineInterface li) {
         Line line = (Line) li;
-        //line.setBudgetId(this.id);
+        line.setBudgetId(this.id);
     }
 
     @Override
@@ -145,6 +145,7 @@ public class Budget extends BaseModel implements BudgetInterface {
         addAudit(audit);
     }
     
+
     public static Budget find(Integer id) {
 	    BasicDBObject query = new BasicDBObject();
 	    query.put("entry.id", id);

@@ -76,7 +76,12 @@ public class Line extends BaseModel implements LineInterface {
     @Override
     public void delete(SublineInterface si) {
             Subline subline = (Subline) si;
-            Helper.delete(subline, subline.getRepositoryName(), WorkletContext.getInstance());
+            try{
+            MongoHelper.delete(subline, getStoreName(), subline.getRepositoryName());
+            }catch(Exception e){
+                System.out.println("Failed to delete subline #" + subline.getNumber()+
+                        "."+subline.getSubNumber()+ "because of error:"+e);
+            }
     }
 
     @Override
@@ -89,13 +94,21 @@ public class Line extends BaseModel implements LineInterface {
             return name;
     } 
     
+    @Override
     public void update(Audit audit){
         super.update(audit);
         Budget.find(budgetId).update(audit);
     }
     
    public static Line find(Integer id) {	
-       return (Line) Helper.fetch("Lines", id, context());
+        BasicDBObject query = new BasicDBObject();
+        query.put("entry.id", id);
+        try{
+            return (Line) MongoHelper.query(query,BaseModel.getStoreName(),new Line().getRepositoryName()).get(0);
+        }catch(Exception e){
+                System.out.println("couldnt find budget #"+id+" "+e);
+        }
+        return null;
     }
 
 }

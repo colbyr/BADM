@@ -68,20 +68,29 @@ abstract class BaseModel extends Entry {
 	 * 
 	 * saves the model to the database
 	 * 
-	 * @return Boolean
+	 * @return Boolean 
 	 */
 	public Boolean commit() {
 		Integer something;
 		try {
 			something = MongoHelper.insert(this,BaseModel.getStoreName(), getRepositoryName());
 		} catch(Exception e) {
-			System.out.println("Budget has not been commited because of error" + e);
+			System.out.println(this.getClass().getName()+" with id:" + id + " has not been commited because of error" + e);
 			return false;
 		}
-		
-		System.out.println(something);
-		return (something > -1) ? true : false;
+                return (something > -1) ? true : false;
 	}
+        
+        public Boolean delete(){
+            Integer something;
+		try {
+			something = MongoHelper.delete(this,BaseModel.getStoreName(), getRepositoryName());
+		} catch(Exception e) {
+			System.out.println(this.getClass().getName()+" with id:" + id + " has not been deleted because of error" + e);
+			return false;
+		}
+		return (something > -1) ? true : false; 
+        }
 	
 	/**
 	 * context

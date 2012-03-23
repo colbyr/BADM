@@ -93,14 +93,11 @@ public class BudgetTest {
 	public void fetch() {
 		try {
                     System.out.println("fetch");
-                    System.out.println(Helper.getTicket(context));
-
                     String repos = budget.getRepositoryName();
-
-                    System.out.println(Helper.getTicket(context));
-
+                    System.out.println(budget.getId());//if -1 that means the budget has yet to be inserted
                     Budget fetched_budget = 
                             Budget.find(budget.getId());
+                    
 
                     if(fetched_budget == null) {
 			    fail("budget not found");

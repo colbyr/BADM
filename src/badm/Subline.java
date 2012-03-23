@@ -17,9 +17,8 @@ import org.workplicity.util.MongoHelper;
  *
  * @author idontknow5691
  */
-public class Subline extends BaseModel implements SublineInterface {
+public class Subline extends Line implements SublineInterface {
 
-	protected String name;
 	protected Integer subNumber;
 
 	@Override
@@ -42,8 +41,8 @@ public class Subline extends BaseModel implements SublineInterface {
 		t.setSublineId(id);
 		return t;
 	}
-
-	@Override
+        
+        @Override
 	public Integer getSubNumber() {
 		return subNumber;
 	}
@@ -63,16 +62,6 @@ public class Subline extends BaseModel implements SublineInterface {
 		} catch (Exception e) {
 			System.out.println("couldn't delete transaction - " + e);
 		}
-	}
-
-	@Override
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	@Override
-	public String getName() {
-		return name;
 	}
 
 	public static Subline find(Integer id) {
