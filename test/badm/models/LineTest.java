@@ -4,6 +4,7 @@
  */
 package badm.models;
 
+import badm.Accounts;
 import badm.Line;
 import cc.test.bridge.SublineInterface;
 import java.util.ArrayList;
@@ -21,6 +22,9 @@ public class LineTest {
 
 	@BeforeClass
 	public static void setUpClass() throws Exception {
+		if (!Accounts.login()) {
+			fail("Could not login.");
+		}
 	}
 
 	@AfterClass
