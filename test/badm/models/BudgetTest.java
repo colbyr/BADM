@@ -4,10 +4,7 @@
  */
 package badm.models;
 
-import badm.BridgeHelper;
-import badm.Budget;
-import badm.Line;
-import badm.Note;
+import badm.*;
 import cc.test.bridge.BridgeConstants.Side;
 import cc.test.bridge.LineInterface;
 import cc.test.bridge.NoteInterface;
@@ -42,18 +39,9 @@ public class BudgetTest {
 
 	@BeforeClass
 	public static void setUpClass() throws Exception {
-		try { 
-			// Set the store name since the default may be be not ours
-                        NetTask.setStoreName(STORE_NAME);
-                        NetTask.setUrlBase("http://localhost:8080/netprevayle/task");
-
-                        // Attempt the login
-                        if(!Helper.login("admin", "gazelle", context))
-				fail("login failed");
-
-		} catch (Exception e) {
-			fail("failed with exception: " + e);
-                }
+		if (!Accounts.login()) {
+			fail("Could not login.");
+		}
 		
 		budget = (Budget) BridgeHelper.getBudgetFactory().create();
 		

@@ -4,6 +4,7 @@
  */
 package badm.models;
 
+import badm.Accounts;
 import badm.Note;
 import java.util.Date;
 import org.junit.*;
@@ -20,6 +21,9 @@ public class NoteTest {
 
 	@BeforeClass
 	public static void setUpClass() throws Exception {
+		if (!Accounts.login()) {
+			fail("Could not login.");
+		}
 	}
 
 	@AfterClass
