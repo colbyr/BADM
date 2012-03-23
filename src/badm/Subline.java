@@ -20,7 +20,13 @@ import org.workplicity.util.MongoHelper;
 public class Subline extends Line implements SublineInterface {
 
 	protected Integer subNumber;
-
+        
+        /**
+         * Fetches all of the Transactions linked to the Subline.
+         * In the future more control will be avaiable over how Transactions
+         * can be fetched.
+         * @return All linked Transactions 
+         */
 	@Override
 	public ArrayList<TransactionInterface> fetchTransactions() {
 		BasicDBObject query = new BasicDBObject();
@@ -35,6 +41,10 @@ public class Subline extends Line implements SublineInterface {
 		return result;
 	}
 
+        /**
+         * Makes a new Transaction and links it to the calling Subline.
+         * @return A new Transaction
+         */
 	@Override
 	public TransactionInterface createTransaction() {
 		Transaction t = new Transaction();
@@ -42,29 +52,60 @@ public class Subline extends Line implements SublineInterface {
 		return t;
 	}
         
+        /**
+         * 
+         * @return the Subline number
+         */
         @Override
 	public Integer getSubNumber() {
 		return subNumber;
 	}
-
+        
+        /**
+         * 
+         * @param num The new Subline number
+         */
+        public void setSublineNumber(Integer num){
+            subNumber = num;
+        }
+        
+        /**
+         * Links a Transaction to the calling Subline.
+         * @param ti The Transaction to be linked.
+         */
 	@Override
 	public void add(TransactionInterface ti) {
 		Transaction t = (Transaction) ti;
 		t.setSubline(this);
 	}
-
+        
+        /**
+         * Deletes the specified Transaction
+         * @param ti The Transaction to be deleted.
+         */
 	@Override
 	public void delete(TransactionInterface ti) {
 		Transaction t = (Transaction) ti;
-		Helper.delete(t, t.getRepositoryName(), context());
 		try {
-			MongoHelper.delete(t, BaseModel.getStoreName(), this.getRepositoryName());
+                    t.delete();
 		} catch (Exception e) {
 			System.out.println("couldn't delete transaction - " + e);
 		}
 	}
-
+        
+        /**
+         * Finds a Subline.
+         * @param id The id of the Subline to be found.
+         * @return The Subline or null if not found
+         */
 	public static Subline find(Integer id) {
-		return (Subline) Helper.fetch("Sublines", id, context());
-	}
+            BasicDBObject query = new BasicDBObject();
+            query.put("entry.id", id);
+            try{
+                return (Subline) MongoHelper.query(query,BaseModel.getStoreName(),new Subline().getRepositoryName()).get(0);
+            }catch(Exception e){
+                    System.out.println("couldnt find Subline #"+id+" "+e);
+            }
+            return null;	
+        }
 }
