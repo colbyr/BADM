@@ -42,107 +42,92 @@ public class NoteTest {
 	 * Test of setBudgetId method, of class Note.
 	 */
 	@Test
-	public void testSetBudgetId() {
+	public void testBudgetId() {
 		System.out.println("setBudgetId");
-		Integer id = null;
+		Integer id = 10;
 		Note instance = new Note();
 		instance.setBudgetId(id);
-		// TODO review the generated test code and remove the default call to fail.
-		fail("The test case is a prototype.");
+		assertEquals(id, instance.getBudgetId());
 	}
 
-	/**
-	 * Test of getBudgetId method, of class Note.
-	 */
-	@Test
-	public void testGetBudgetId() {
-		System.out.println("getBudgetId");
-		Note instance = new Note();
-		Integer expResult = null;
-		Integer result = instance.getBudgetId();
-		assertEquals(expResult, result);
-		// TODO review the generated test code and remove the default call to fail.
-		fail("The test case is a prototype.");
-	}
-
-	/**
-	 * Test of setText method, of class Note.
-	 */
-	@Test
-	public void testSetText() {
-		System.out.println("setText");
-		String t = "";
-		Note instance = new Note();
-		instance.setText(t);
-		// TODO review the generated test code and remove the default call to fail.
-		fail("The test case is a prototype.");
-	}
-
-	/**
-	 * Test of getAuthor method, of class Note.
-	 */
-	@Test
-	public void testGetAuthor() {
-		System.out.println("getAuthor");
-		Note instance = new Note();
-		String expResult = "";
-		String result = instance.getAuthor();
-		assertEquals(expResult, result);
-		// TODO review the generated test code and remove the default call to fail.
-		fail("The test case is a prototype.");
-	}
-
-	/**
-	 * Test of setAuthor method, of class Note.
-	 */
-	@Test
-	public void testSetAuthor() {
-		System.out.println("setAuthor");
-		String string = "";
-		Note instance = new Note();
-		instance.setAuthor(string);
-		// TODO review the generated test code and remove the default call to fail.
-		fail("The test case is a prototype.");
-	}
-
-	/**
-	 * Test of setName method, of class Note.
-	 */
-	@Test
-	public void testSetName() {
-		System.out.println("setName");
-		String string = "";
-		Note instance = new Note();
-		instance.setName(string);
-		// TODO review the generated test code and remove the default call to fail.
-		fail("The test case is a prototype.");
-	}
-
-	/**
-	 * Test of getName method, of class Note.
-	 */
-	@Test
-	public void testGetName() {
-		System.out.println("getName");
-		Note instance = new Note();
-		String expResult = "";
-		String result = instance.getName();
-		assertEquals(expResult, result);
-		// TODO review the generated test code and remove the default call to fail.
-		fail("The test case is a prototype.");
-	}
-
-	/**
-	 * Test of find method, of class Note.
-	 */
-	@Test
-	public void testFind() {
-		System.out.println("find");
-		Integer id = null;
-		Note expResult = null;
-		Note result = Note.find(id);
-		assertEquals(expResult, result);
-		// TODO review the generated test code and remove the default call to fail.
-		fail("The test case is a prototype.");
-	}
+//	/**
+//	 * Test of setText method, of class Note.
+//	 */
+//	@Test
+//	public void testSetText() {
+//		System.out.println("setText");
+//		String t = "";
+//		Note instance = new Note();
+//		instance.setText(t);
+//		// TODO review the generated test code and remove the default call to fail.
+//		fail("The test case is a prototype.");
+//	}
+//
+//	/**
+//	 * Test of getAuthor method, of class Note.
+//	 */
+//	@Test
+//	public void testGetAuthor() {
+//		System.out.println("getAuthor");
+//		Note instance = new Note();
+//		String expResult = "";
+//		String result = instance.getAuthor();
+//		assertEquals(expResult, result);
+//		// TODO review the generated test code and remove the default call to fail.
+//		fail("The test case is a prototype.");
+//	}
+//
+//	/**
+//	 * Test of setAuthor method, of class Note.
+//	 */
+//	@Test
+//	public void testSetAuthor() {
+//		System.out.println("setAuthor");
+//		String string = "";
+//		Note instance = new Note();
+//		instance.setAuthor(string);
+//		// TODO review the generated test code and remove the default call to fail.
+//		fail("The test case is a prototype.");
+//	}
+//
+//	/**
+//	 * Test of setName method, of class Note.
+//	 */
+//	@Test
+//	public void testSetName() {
+//		System.out.println("setName");
+//		String string = "";
+//		Note instance = new Note();
+//		instance.setName(string);
+//		// TODO review the generated test code and remove the default call to fail.
+//		fail("The test case is a prototype.");
+//	}
+//
+//	/**
+//	 * Test of getName method, of class Note.
+//	 */
+//	@Test
+//	public void testGetName() {
+//		System.out.println("getName");
+//		Note instance = new Note();
+//		String expResult = "";
+//		String result = instance.getName();
+//		assertEquals(expResult, result);
+//		// TODO review the generated test code and remove the default call to fail.
+//		fail("The test case is a prototype.");
+//	}
+//
+//	/**
+//	 * Test of find method, of class Note.
+//	 */
+//	@Test
+//	public void testFind() {
+//		System.out.println("find");
+//		Integer id = null;
+//		Note expResult = null;
+//		Note result = Note.find(id);
+//		assertEquals(expResult, result);
+//		// TODO review the generated test code and remove the default call to fail.
+//		fail("The test case is a prototype.");
+//	}
 }
