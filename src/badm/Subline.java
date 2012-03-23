@@ -20,6 +20,26 @@ import org.workplicity.util.MongoHelper;
 public class Subline extends Line implements SublineInterface {
 
 	protected Integer subNumber;
+        protected Integer lineId;
+
+        /**
+         * 
+         * @return The linked Line's id. 
+         */
+        public Integer getLineId() {
+            return lineId;
+        }
+
+        /**
+        * Associates a Subline with a Line. Must be called if the 
+        * Subline is to be paired with a Line unless you already
+        * called Line.createSubline() or Line.add(Subline) with this
+        * specific Subline.
+        * @param id The new Budget to link to this Line
+        */
+        public void setLineId(Integer lineId) {
+            this.lineId = lineId;
+        }
         
         /**
          * Fetches all of the Transactions linked to the Subline.
