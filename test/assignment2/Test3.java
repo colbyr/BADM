@@ -7,6 +7,7 @@ package assignment2;
 import badm.Accounts;
 import badm.BridgeHelper;
 import badm.Budget;
+import badm.Line;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 import org.junit.*;
@@ -34,8 +35,8 @@ public class Test3 {
 
 	@AfterClass
 	public static void tearDownClass() throws Exception {
+		Helper.logout(Helper.whoAmI(context), context);
 	}
-	
 	@Before
 	public void setUp() {
 	}
@@ -88,5 +89,23 @@ public class Test3 {
 			fail("Could not fetch the budget"+e);
 		}
 	}
+        
+        @Test
+    public void createCommit(){
+       Budget test = new Budget();
+       test.setName("My Budget");
+       test.commit();
+       Integer budgetId = test.getId();
+       Line line =  (Line)test.createLine();
+       line.setName("sexy line");
+       test.commit();
+       Integer lineId = line.getId();
+       System.out.println("creatcommit"+lineId);
+       Budget pulledBudget = Budget.find(budgetId);
+       Line pulledLine = Line.find(lineId);
+       
+       assertEquals(pulledBudget.getName(), "My Budget");
+       assertEquals(pulledLine.getName(), "sexy line");
+    }
 	
 }

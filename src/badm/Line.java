@@ -4,6 +4,7 @@
  */
 package badm;
 
+import cc.test.bridge.BridgeConstants;
 import cc.test.bridge.LineInterface;
 import cc.test.bridge.SublineInterface;
 import com.mongodb.BasicDBObject;
@@ -141,6 +142,7 @@ public class Line extends BaseModel implements LineInterface {
      */
     @Override
     public void setName(String string) {
+            BridgeHelper.getHamper().put(this,BridgeConstants.State.UPDATE);
             name = string;
     }
 

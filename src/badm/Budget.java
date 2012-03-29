@@ -4,6 +4,7 @@
  */
 package badm;
 
+import cc.test.bridge.BridgeConstants;
 import cc.test.bridge.BridgeConstants.Side;
 import cc.test.bridge.BudgetInterface;
 import cc.test.bridge.LineInterface;
@@ -47,6 +48,7 @@ public class Budget extends BaseModel implements BudgetInterface {
      */
     @Override
     public String getDescription() {
+        BridgeHelper.getHamper().put(this,BridgeConstants.State.UPDATE);
         return description;
     }
     
@@ -183,6 +185,7 @@ public class Budget extends BaseModel implements BudgetInterface {
      */
     @Override
     public void setName(String string) {
+        BridgeHelper.getHamper().put(this,BridgeConstants.State.UPDATE);
         name = string;
     }
 

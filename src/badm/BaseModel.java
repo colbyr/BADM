@@ -5,6 +5,9 @@
 package badm;
 
 
+import cc.test.bridge.BridgeConstants;
+import cc.test.bridge.BridgeInterface;
+import java.util.Iterator;
 import org.codehaus.jackson.annotate.JsonIgnore;
 import org.workplicity.entry.Entry;
 import org.workplicity.task.NetTask;
@@ -18,7 +21,7 @@ import org.workplicity.worklet.WorkletContext;
  * 
  * @author Colby Rabideau
  */
-abstract class BaseModel extends Entry {
+abstract class BaseModel extends Entry implements BridgeInterface{
 	
 	/**
 	 * Repository Name
@@ -70,10 +73,21 @@ abstract class BaseModel extends Entry {
 	 * 
 	 * @return Boolean 
 	 */
+        @Override
 	public Boolean commit() {
-		Integer something;
+		Integer something = -1;
 		try {
-			something = MongoHelper.insert(this,BaseModel.getStoreName(), getRepositoryName());
+            for (Iterator<BridgeInterface> it = BridgeHelper.getHamper().keySet().iterator(); it.hasNext();) {
+                
+                BaseModel bm = (BaseModel)it.next();
+                System.out.println("Checking State"+ bm.getClass());
+                System.out.println(BridgeHelper.getHamper().get(bm));
+                if(BridgeHelper.getHamper().get(bm) == BridgeConstants.State.UPDATE ||
+                        BridgeHelper.getHamper().get(bm) == BridgeConstants.State.CREATE){
+                    something = MongoHelper.insert(bm,BaseModel.getStoreName(), bm.getRepositoryName());
+                    System.out.println("Commiting "+bm.getId()+ "to repo");
+                }
+            }
 		} catch(Exception e) {
 			System.out.println(this.getClass().getName()+" with id:" + id + " has not been commited because of error" + e);
 			return false;
