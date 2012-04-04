@@ -5,8 +5,10 @@
 package badm;
 
 import cc.test.bridge.NoteInterface;
+import com.mongodb.BasicDBObject;
 import java.util.Date;
 import org.workplicity.util.Helper;
+import org.workplicity.util.MongoHelper;
 
 /**
  * Note
@@ -113,6 +115,14 @@ public class Note extends BaseModel implements NoteInterface {
 	 * @return Note
 	 */
 	public static Note find(Integer id) {
-		return (Note) Helper.fetch("Notes", id, context());
+		BasicDBObject query = new BasicDBObject();
+		query.put("entry.id", id);
+		System.out.println(id);
+		try{
+			return (Note) MongoHelper.query(query, BaseModel.getStoreName(),new Note().getRepositoryName()).get(0);
+		}catch(Exception e){
+			System.out.println("couldnt find note #"+id+" "+e);
+			return null;
+		}
 	}
 }
