@@ -204,6 +204,7 @@ public class Budget extends BaseModel implements BudgetInterface {
     public void update(Audit audit){
         super.update(audit);
         total += audit.getValue();
+        dirty();
         addAudit(audit);
     }
     
