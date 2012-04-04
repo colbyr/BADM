@@ -23,7 +23,6 @@ import org.workplicity.worklet.WorkletContext;
  */
 public class Line extends BaseModel implements LineInterface {
     Integer number;
-    String name;
     Integer budgetId;
     Integer total;
     
@@ -41,6 +40,7 @@ public class Line extends BaseModel implements LineInterface {
      */
     public void setTotal(Integer total) {
         this.total = total;
+        dirty();
     }
     
     /**
@@ -58,6 +58,7 @@ public class Line extends BaseModel implements LineInterface {
      */
     public void setNumber(Integer n){
         number = n;
+        dirty();
     }
     
     /**
@@ -69,6 +70,7 @@ public class Line extends BaseModel implements LineInterface {
      */
     public void setBudgetId(Integer id){
         budgetId=id;
+        dirty();
     }
     
     /**
@@ -118,7 +120,7 @@ public class Line extends BaseModel implements LineInterface {
     @Override
     public void add(SublineInterface si) {
             Subline subline = (Subline)si;
-//            subline.setLineId(id);
+// TODO           subline.setLineId(id);
     }
 
     /**
@@ -136,24 +138,6 @@ public class Line extends BaseModel implements LineInterface {
             }
     }
 
-    /**
-     * 
-     * @param string The new name of the Line
-     */
-    @Override
-    public void setName(String string) {
-            BridgeHelper.getHamper().put(this,BridgeConstants.State.UPDATE);
-            name = string;
-    }
-
-    /**
-     * 
-     * @return the name of the Line 
-     */
-    @Override
-    public String getName() {
-            return name;
-    } 
     
     /**
      * Updates the Line and then passes the Audit up to the linked Budget.

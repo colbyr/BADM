@@ -21,7 +21,6 @@ import org.workplicity.util.MongoHelper;
 public class Transaction extends BaseModel implements TransactionInterface {
 
 	protected Integer sublineId;
-	protected String name;
 	protected Double amount;
 	protected Date date;
 	
@@ -42,6 +41,7 @@ public class Transaction extends BaseModel implements TransactionInterface {
          */
 	public void setSublineId(Integer sid) {
 		this.sublineId = sid;
+                dirty();
 	}
 	
 	/**
@@ -60,6 +60,7 @@ public class Transaction extends BaseModel implements TransactionInterface {
 	@Override
 	public void setDate(Date date) {
 		this.date = date;
+                dirty();
 	}
 
         /**
@@ -87,24 +88,6 @@ public class Transaction extends BaseModel implements TransactionInterface {
             // TODO asign values to audit
             Subline.find(sublineId).update(audit);
         }
-
-        /**
-         * 
-         * @param name New name
-         */
-	@Override
-	public void setName(String name) {
-		this.name = name;
-	}
-
-        /**
-         * 
-         * @return The name of the Transaction
-         */
-	@Override
-	public String getName() {
-		return name;
-	}
         
         /**
          * Finds a Transaction.

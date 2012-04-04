@@ -22,7 +22,6 @@ import org.workplicity.worklet.WorkletContext;
  */
 public class Budget extends BaseModel implements BudgetInterface {
     protected String description;
-    protected String name;
     protected Integer total;
     
     /**
@@ -39,6 +38,7 @@ public class Budget extends BaseModel implements BudgetInterface {
      */
     public void setTotal(Integer total) {
         this.total = total;
+        dirty();
     }
     
     
@@ -59,6 +59,7 @@ public class Budget extends BaseModel implements BudgetInterface {
     @Override
     public void setDescription(String d) {
         description = d;
+        dirty();
     }
     
     /**
@@ -177,25 +178,6 @@ public class Budget extends BaseModel implements BudgetInterface {
     public void update(NoteInterface ni) {
         Note note = (Note) ni;
         note.commit();
-    }
-
-    /**
-     * 
-     * @param string The new name of the Budget
-     */
-    @Override
-    public void setName(String string) {
-        BridgeHelper.getHamper().put(this,BridgeConstants.State.UPDATE);
-        name = string;
-    }
-
-    /**
-     * 
-     * @return The name of the Budget 
-     */
-    @Override
-    public String getName() {
-        return name;
     }
 
     /**

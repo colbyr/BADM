@@ -23,6 +23,17 @@ import org.workplicity.worklet.WorkletContext;
  */
 abstract class BaseModel extends Entry implements BridgeInterface{
 	
+    
+        String name;
+        @Override
+        public void setName(String name){
+            this.name = name;
+            dirty();
+        }
+        @Override
+        public String getName(){
+            return name;
+        }
 	/**
 	 * Repository Name
 	 *
@@ -136,11 +147,17 @@ abstract class BaseModel extends Entry implements BridgeInterface{
 	 */
         public void update(Audit audit){
             audit.getUpdated().add(0, id);
+            dirty();
         }
         
         @JsonIgnore
         public static String getStoreName() {
             return NetTask.getStoreName();
+        }
+        
+        
+        public void dirty(){
+            BridgeHelper.getHamper().put(this,BridgeConstants.State.UPDATE);
         }
 	
 }

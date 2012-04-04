@@ -41,6 +41,7 @@ public class Subline extends Line implements SublineInterface {
         */
         public void setLineId(Integer lineId) {
             this.lineId = lineId;
+            dirty();
         }
         
         /**
@@ -89,6 +90,7 @@ public class Subline extends Line implements SublineInterface {
          */
         public void setSublineNumber(Integer num){
             subNumber = num;
+            dirty();
         }
         
         /**

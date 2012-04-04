@@ -40,6 +40,7 @@ public class Audit extends BaseModel {
 	 */
 	public void setBudgetId(Integer budgetId) {
 		this.budgetId = budgetId;
+                dirty();
 	}
 
 	/**
@@ -62,6 +63,7 @@ public class Audit extends BaseModel {
 	 */
 	public void setDescription(String description) {
 		this.description = description;
+                dirty();
 	}
 
 	/**
@@ -84,6 +86,7 @@ public class Audit extends BaseModel {
 	 */
 	public void setUpdated(ArrayList<Integer> updated) {
 		this.updated = updated;
+                dirty();
 	}
 
 	/**
@@ -93,5 +96,6 @@ public class Audit extends BaseModel {
 	public int getTimestamp() {
 		return timestamp;
 	}
+
 	
 }

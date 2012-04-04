@@ -18,7 +18,6 @@ import org.workplicity.util.Helper;
 public class Note extends BaseModel implements NoteInterface {
 
 	protected String text;
-	protected String name;
 	protected Date date;
 	protected String author;
 	protected Integer budgetId;
@@ -56,6 +55,7 @@ public class Note extends BaseModel implements NoteInterface {
 	 */
 	public void setBudgetId(Integer id) {
 		budgetId = id;
+                dirty();
 	}
 
 	/**
@@ -76,7 +76,7 @@ public class Note extends BaseModel implements NoteInterface {
 	@Override
 	public void setText(String t) {
 		text = t;
-		//TODO: set dirty
+		dirty();
 	}
 
 	/**
@@ -101,30 +101,7 @@ public class Note extends BaseModel implements NoteInterface {
 	@Override
 	public void setAuthor(String string) {
 		author = string;
-	}
-
-	/**
-	 * set name
-	 * 
-	 * sets note name
-	 * 
-	 * @param string 
-	 */
-	@Override
-	public void setName(String string) {
-		name = string;
-	}
-
-	/**
-	 * get name
-	 * 
-	 * get note name
-	 * 
-	 * @return String
-	 */
-	@Override
-	public String getName() {
-		return name;
+                dirty();
 	}
 
 	/**
