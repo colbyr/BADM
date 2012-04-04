@@ -46,9 +46,9 @@ public class LineTest {
 	public void testTotal() {
 		System.out.println("getTotal");
 		Line instance = new Line();
-		Integer expResult = 20;
+		Double expResult = 20.0;
 		instance.setTotal(expResult);
-		Integer result = instance.getTotal();
+		Double result = instance.getTotal();
 		assertEquals(expResult, result);
 	}
 
