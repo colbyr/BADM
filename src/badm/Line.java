@@ -24,13 +24,13 @@ import org.workplicity.worklet.WorkletContext;
 public class Line extends BaseModel implements LineInterface {
     Integer number;
     Integer budgetId;
-    Integer total;
+    Double total;
     
     /**
      * 
      * @return The total value of the Line
      */
-    public Integer getTotal() {
+    public Double getTotal() {
         return total;
     }
 
@@ -38,7 +38,7 @@ public class Line extends BaseModel implements LineInterface {
      * 
      * @param total The new total value of the Line
      */
-    public void setTotal(Integer total) {
+    public void setTotal(Double total) {
         this.total = total;
         dirty();
     }
@@ -146,6 +146,8 @@ public class Line extends BaseModel implements LineInterface {
     @Override
     public void update(Audit audit){
         super.update(audit);
+        total += audit.getValue();
+        dirty();
         Budget.find(budgetId).update(audit);
     }
     

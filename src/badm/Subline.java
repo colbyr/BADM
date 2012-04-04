@@ -136,7 +136,8 @@ public class Subline extends Line implements SublineInterface {
         @Override
         public void update(Audit audit){
             super.update(audit);
-            // TODO change subline vaules
+            total += audit.getValue();
+            dirty();
             Line.find(lineId).update(audit);
         }
 }

@@ -85,7 +85,9 @@ public class Transaction extends BaseModel implements TransactionInterface {
         @Override
         public void update(Audit audit){
             super.update(audit);
-            // TODO asign values to audit
+            audit.setDescription("Change in transaction "+ this.getId() + " " + audit.getValue());
+            amount += audit.getValue();
+            dirty();
             Subline.find(sublineId).update(audit);
         }
         

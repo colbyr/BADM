@@ -15,10 +15,20 @@ import java.util.ArrayList;
  */
 public class Audit extends BaseModel {
 
-	public int timestamp;
-	public ArrayList<Integer> updated;
-	public String description;
+	protected int timestamp;
+	protected ArrayList<Integer> updated;
+	protected String description;
 	protected Integer budgetId;
+        protected double value;
+
+        public double getValue() {
+            return value;
+        }
+
+        public void setValue(double value) {
+            this.value = value;
+        }
+        
 
 	/**
 	 * get budget id

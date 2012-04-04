@@ -22,13 +22,13 @@ import org.workplicity.worklet.WorkletContext;
  */
 public class Budget extends BaseModel implements BudgetInterface {
     protected String description;
-    protected Integer total;
+    protected Double total;
     
     /**
      * 
      * @return The total value of the budget
      */
-    public Integer getTotal() {
+    public Double getTotal() {
         return total;
     }
 
@@ -36,7 +36,7 @@ public class Budget extends BaseModel implements BudgetInterface {
      * 
      * @param total The new total value of the budget
      */
-    public void setTotal(Integer total) {
+    public void setTotal(Double total) {
         this.total = total;
         dirty();
     }
@@ -203,7 +203,7 @@ public class Budget extends BaseModel implements BudgetInterface {
      */
     public void update(Audit audit){
         super.update(audit);
-        //TODO add totals and stuffs
+        total += audit.getValue();
         addAudit(audit);
     }
     
