@@ -4,7 +4,9 @@
  */
 package badm;
 
+import com.mongodb.BasicDBObject;
 import java.util.ArrayList;
+import org.workplicity.util.MongoHelper;
 
 /**
  * Audit
@@ -104,13 +106,31 @@ public class Audit extends BaseModel {
 	 * get audit timestamp
 	 * @return 
 	 */
-	public Integer getTimestamp() {
+	public Integer getTimeStamp() {
 		return timestamp;
 	}
         
         public void setTimeStamp(Integer time){
             timestamp = time;
+            dirty();
         }
+        
+            /**
+     * Finds a Audit with a specific id.
+     * @param id The id of the Audit to be found
+     * @return The Audit, of null if not found.
+     */
+    public static Audit find(Integer id) {
+	    BasicDBObject query = new BasicDBObject();
+	    query.put("entry.id", id);
+	    System.out.println(id);
+	    try{
+		return (Audit) MongoHelper.query(query,BaseModel.getStoreName(),new Audit().getRepositoryName()).get(0);
+	    }catch(Exception e){
+		    System.out.println("couldnt find audit #"+id+" "+e);
+	    }
+	    return null;
+    }
 
 	
 }

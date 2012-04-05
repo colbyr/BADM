@@ -33,7 +33,34 @@ public class AuditTest {
     public void setUp() {
         audit = new Audit();
         audit.setDescription("I'm an audit");
-       // audit.set
+        audit.setValue(4000.0);
+        audit.commit();
+    }
+    
+    @Test
+    public void create(){
+        assert(audit.getId() > -1);
+    }
+    
+    @Test
+    public void Read(){
+        Audit readAudit = (Audit) Audit.find(audit.getId());
+        assert(readAudit.getDescription().equals("I'm an audit"));
+    }
+    
+    @Test
+    public void Update(){
+        audit.setValue(6000.0);
+        audit.commit();
+        Audit readAudit = (Audit) Audit.find(audit.getId());
+        assert(readAudit.getValue().equals(6000.0));
+    }
+    
+    @Test
+    public void Delete(){
+        audit.delete();
+        Audit readAudit = (Audit) Audit.find(audit.getId());
+        assertEquals(null,readAudit);
     }
     
     @After
