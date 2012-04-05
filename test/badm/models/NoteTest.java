@@ -57,7 +57,7 @@ public class NoteTest {
 	 * @return void
 	 */
 	@Test
-	public void testCreateNote() {
+	public void create() {
 		assertTrue(note.getId() > -1);
 	}
 	
@@ -79,7 +79,7 @@ public class NoteTest {
 	 * @return void
 	 */
 	@Test
-	public void testUpdateAttribtues() {
+	public void update() {
 		note.setAuthor("Tom");
 		assertTrue(note.commit());
 		
@@ -96,7 +96,7 @@ public class NoteTest {
 	 * @return void
 	 */
 	@Test
-	public void testDeleteNote() {
+	public void delete() {
 		assertTrue(note.delete());
 	}
 
