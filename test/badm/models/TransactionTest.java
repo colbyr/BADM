@@ -68,7 +68,7 @@ public class TransactionTest {
 	 * @return void
 	 */
 	@Test
-	public void create() {
+	public void Create() {
 		assertTrue(transaction.getId() > -1);
 	}
 
@@ -78,7 +78,7 @@ public class TransactionTest {
 	 * @return void
 	 */
 	@Test
-	public void read() {
+	public void Read() {
 		System.out.println("Read");
 		Transaction read = Transaction.find(transaction.getId());
 		assertEquals(read.getName(), transaction.getName());
