@@ -12,13 +12,13 @@ import static org.junit.Assert.*;
 import org.workplicity.util.Helper;
 
 /**
+ * Note Model Test 
  *
- * @author idontknow5691
+ * @author Colby Rabideau
  */
 public class NoteTest {
-	
-	public NoteTest() {
-	}
+
+	public Note note;
 
 	@BeforeClass
 	public static void setUpClass() throws Exception {
@@ -26,13 +26,12 @@ public class NoteTest {
 			fail("Could not login.");
 		}
 	}
-
-	public Note note;
 	
-	@AfterClass
-	public static void tearDownClass() throws Exception {
-	}
-	
+	/**
+	 * Set Up
+	 *
+	 * @return void
+	 */
 	@Before
 	public void setUp() {
 		note = new Note();
@@ -42,28 +41,45 @@ public class NoteTest {
 		note.commit();
 	}
 	
+	/**
+	 * Tear Down
+	 *
+	 * @return void
+	 */
 	@After
 	public void tearDown() {
 		note.delete();
 	}
 
+	/**
+	 * [test] Create Note
+	 *
+	 * @return void
+	 */
 	@Test
-	public void testCreateNote()
-	{
+	public void testCreateNote() {
 		assertTrue(note.getId() > -1);
 	}
 	
+	/**
+	 * [test] Set & Save Attributes
+	 *
+	 * @return void
+	 */
 	@Test
-	public void testSetAndSaveAttributes()
-	{
+	public void testSetAndSaveAttributes() {
 		assertEquals("Colby", note.getAuthor());
 		assertEquals("Test", note.getName());
 		assertEquals(new Integer(1), note.getBudgetId());
 	}
 	
+	/**
+	 * [test] Update Attributes
+	 *
+	 * @return void
+	 */
 	@Test
-	public void testUpdateAttribtues()
-	{
+	public void testUpdateAttribtues() {
 		note.setAuthor("Tom");
 		assertTrue(note.commit());
 		
@@ -74,15 +90,14 @@ public class NoteTest {
 		assertEquals(note.getAuthor(), new_note.getAuthor());
 	}
 	
+	/**
+	 * [test] Delete Note
+	 *
+	 * @return void
+	 */
 	@Test
-	public void testDeleteNote()
-	{
+	public void testDeleteNote() {
 		assertTrue(note.delete());
 	}
-	
-	@Test
-	public void testFalse()
-	{
-		assertFalse(false);
-	}
+
 }

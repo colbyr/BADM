@@ -5,11 +5,10 @@
 package badm.models;
 
 import badm.Accounts;
-import badm.Budget;
-import badm.BudgetFactory;
 import badm.Line;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 import org.junit.*;
-import static org.junit.Assert.*;
 
 /**
  *
