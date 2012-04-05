@@ -64,6 +64,10 @@ abstract class BaseModel extends Entry implements BridgeInterface{
 
 		return name;
 	}
+        
+        public BaseModel(){
+            BridgeHelper.getHamper().put(this,BridgeConstants.State.CREATE);
+        }
 	
 	/**
 	 * Get ID
@@ -86,19 +90,24 @@ abstract class BaseModel extends Entry implements BridgeInterface{
 	 */
         @Override
 	public Boolean commit() {
-		Integer something = -1;
-		try {
-            for (Iterator<BridgeInterface> it = BridgeHelper.getHamper().keySet().iterator(); it.hasNext();) {
-                
-                BaseModel bm = (BaseModel)it.next();
-                if(BridgeHelper.getHamper().get(bm) == BridgeConstants.State.UPDATE ||
-                        BridgeHelper.getHamper().get(bm) == BridgeConstants.State.CREATE){
-                    something = MongoHelper.insert(bm,BaseModel.getStoreName(), bm.getRepositoryName());
-                    BridgeHelper.getHamper().remove(bm);
-		    setId(something);
-                    System.out.println("Commiting "+bm.getId()+ " to repo");
-                }
-            }
+	Integer something = -1;
+            try {
+                Iterator<BridgeInterface> it = BridgeHelper.getHamper().keySet().iterator();
+                while (it.hasNext()) {
+                    BaseModel bm = (BaseModel)it.next();
+                     if(BridgeHelper.getHamper().get(bm) == BridgeConstants.State.CREATE){
+                        something = MongoHelper.insert(bm,BaseModel.getStoreName(), bm.getRepositoryName());
+                        BridgeHelper.getHamper().remove(bm);
+                        setId(something);
+                        System.out.println("Commiting "+bm.getId()+ " to repo, new");   
+                    }
+                    else if(BridgeHelper.getHamper().get(bm) == BridgeConstants.State.UPDATE){
+                        something = MongoHelper.update(bm,BaseModel.getStoreName(), bm.getRepositoryName());
+                        BridgeHelper.getHamper().remove(bm);
+                        setId(something);
+                        System.out.println("Commiting "+bm.getId()+ " to repo, update");   
+                    }
+                }   
 		} catch(Exception e) {
 			System.out.println(this.getClass().getName()+" with id:" + id + " has not been commited because of error" + e);
 			return false;
@@ -157,7 +166,9 @@ abstract class BaseModel extends Entry implements BridgeInterface{
         
         
         public void dirty(){
+            if(BridgeHelper.getHamper().get(this) != BridgeConstants.State.CREATE){
             BridgeHelper.getHamper().put(this,BridgeConstants.State.UPDATE);
+            }
         }
 	
 }

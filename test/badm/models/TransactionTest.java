@@ -48,9 +48,7 @@ public class TransactionTest {
 		transaction.setDate(new Date());
 		transaction.setAmount(100.00);
 		transaction.setSublineId(1);
-		if (!transaction.commit()) {
-			fail("could not commit transaction");
-		}
+		transaction.commit();
 	}
 
 	/**

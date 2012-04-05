@@ -6,6 +6,7 @@ package badm;
 
 import cc.test.bridge.TransactionInterface;
 import com.mongodb.BasicDBObject;
+import java.util.ArrayList;
 import java.util.Date;
 import org.workplicity.util.Helper;
 import org.workplicity.util.MongoHelper;
@@ -81,9 +82,10 @@ public class Transaction extends BaseModel implements TransactionInterface {
 	@Override
 	public void setAmount(Double amount) {
 		this.amount = amount;
-		Audit audit = new Audit();
-		audit.setValue(amount);
-		update(audit);
+//		Audit audit = new Audit();
+//		audit.setValue(amount);
+//                audit.setUpdated(new ArrayList<Integer>());
+//		update(audit);
 	}
 
 	@Override
@@ -91,7 +93,12 @@ public class Transaction extends BaseModel implements TransactionInterface {
 		super.update(audit);
 		audit.setDescription("Change in transaction " + this.getId() + " " + audit.getValue());
 		dirty();
+                try{
 		Subline.find(sublineId).update(audit);
+                }catch(NullPointerException e){
+                    System.out.println("Subline associated with Transcation #"+id+
+                            " with subline id of " + sublineId + " does not exits");
+                }
 	}
 
 	/**
@@ -106,7 +113,7 @@ public class Transaction extends BaseModel implements TransactionInterface {
 		try {
 			return (Transaction) MongoHelper.query(query, BaseModel.getStoreName(), new Transaction().getRepositoryName()).get(0);
 		} catch (Exception e) {
-			System.out.println("couldnt find Subline #" + id + " " + e);
+			System.out.println("couldnt find Transaction #" + id + " " + e);
 		}
 		return null;
 	}

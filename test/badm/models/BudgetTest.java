@@ -56,6 +56,7 @@ public class BudgetTest {
                 budget.setName("I'm a budget");
                 budget.setTotal(4000.0);
                 budget.commit();
+                   
 	}
 	
 	@After

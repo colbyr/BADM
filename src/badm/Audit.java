@@ -27,6 +27,7 @@ public class Audit extends BaseModel {
 
         public void setValue(double value) {
             this.value = value;
+            dirty();
         }
         
 
