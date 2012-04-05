@@ -5,6 +5,7 @@
 package badm.models;
 
 import badm.Accounts;
+import badm.Audit;
 import org.junit.*;
 import static org.junit.Assert.*;
 
@@ -13,7 +14,7 @@ import static org.junit.Assert.*;
  * @author trescenzi
  */
 public class AuditTest {
-    
+    Audit audit;
     public AuditTest() {
     }
 
@@ -30,6 +31,9 @@ public class AuditTest {
     
     @Before
     public void setUp() {
+        audit = new Audit();
+        audit.setDescription("I'm an audit");
+       // audit.set
     }
     
     @After

@@ -15,17 +15,17 @@ import java.util.ArrayList;
  */
 public class Audit extends BaseModel {
 
-	protected int timestamp;
+	protected Integer timestamp;
 	protected ArrayList<Integer> updated;
 	protected String description;
 	protected Integer budgetId;
-        protected double value;
+        protected Double value;
 
-        public double getValue() {
+        public Double getValue() {
             return value;
         }
 
-        public void setValue(double value) {
+        public void setValue(Double value) {
             this.value = value;
             dirty();
         }
@@ -104,9 +104,13 @@ public class Audit extends BaseModel {
 	 * get audit timestamp
 	 * @return 
 	 */
-	public int getTimestamp() {
+	public Integer getTimestamp() {
 		return timestamp;
 	}
+        
+        public void setTimeStamp(Integer time){
+            timestamp = time;
+        }
 
 	
 }
