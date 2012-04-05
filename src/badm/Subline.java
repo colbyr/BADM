@@ -88,7 +88,7 @@ public class Subline extends Line implements SublineInterface {
          * 
          * @param num The new Subline number
          */
-        public void setSublineNumber(Integer num){
+        public void setSubNumber(Integer num){
             subNumber = num;
             dirty();
         }

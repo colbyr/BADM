@@ -35,6 +35,10 @@ public class Note extends BaseModel implements NoteInterface {
 	public Date getDate() {
 		return date;
 	}
+        
+        public void setDate(Date date){
+            this.date=date;
+        }
 
 	/**
 	 * get text

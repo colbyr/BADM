@@ -39,14 +39,10 @@ public class BudgetTest {
 
 	@BeforeClass
 	public static void setUpClass() throws Exception {
-		if (!Accounts.login()) {
-			fail("Could not login.");
-		}
-		
-		budget = (Budget) BridgeHelper.getBudgetFactory().create();
-		
-		budget.setDescription("My Budget");
-		
+            if (!Accounts.login()) {
+                fail("Could not login.");
+            }
+
 	}
 
 	@AfterClass
@@ -56,7 +52,10 @@ public class BudgetTest {
 	
 	@Before
 	public void setUp() {
-		
+		budget = (Budget) new BudgetFactory().create();
+                budget.setName("I'm a budget");
+                budget.setTotal(4000.0);
+                budget.commit();
 	}
 	
 	@After
@@ -64,272 +63,36 @@ public class BudgetTest {
 	}
 
 	@Test
-	public void insert()
-	{
-                System.out.println("insert");
-		//boolean successful = Helper.insert(budget, budget.getRepositoryName(), context);
-		try{
-                Boolean insert = budget.commit();
-		}catch(Exception e){
-			fail("Hey inserting a budget didn't work"+e);
-		}
-		System.out.println("after failed insert");
-                System.out.println(Helper.getTicket(context));
+	public void create(){
+                System.out.println("Create");
+                budget = (Budget) new BudgetFactory().create();
+                budget.commit();
+		assert(budget.getId() > -1);
 	}
+        
+        @Test
+        public void read(){
+            System.out.println("Read");
+            Budget readBudget = Budget.find(budget.getId());
+            assert(budget.getName().equals(readBudget.getName()));
+        }
+        
+        @Test
+        public void Update(){
+            System.out.println("Update");
+            budget.setTotal(6000.0);
+            budget.commit();
+            Budget readBudget = Budget.find(budget.getId());
+            assertEquals((Double)readBudget.getTotal(), (Double)6000.0);
+        }
+        
+        @Test
+        public void Delete(){
+            Integer id = budget.getId();
+            budget.delete();
+            Budget readBudget = Budget.find(id);
+            assertEquals(readBudget, null);
+        }
 	
-	@Test
-	public void fetch() {
-		try {
-                    System.out.println("fetch");
-                    String repos = budget.getRepositoryName();
-                    System.out.println(budget.getId());//if -1 that means the budget has yet to be inserted
-                    Budget fetched_budget = 
-                            Budget.find(budget.getId());
-                    
-
-                    if(fetched_budget == null) {
-			    fail("budget not found");
-		    }
-		    
-                    System.out.println("fetched budget description = '"+fetched_budget.getDescription()+"'");
-
-                    // Verify that the name is what we expect
-		    assertEquals(fetched_budget.getDescription(), budget.getDescription());
-
-		} catch (Exception e) {
-			fail("failed with exception: " + e);
-		}
-	}
 	
-	/**
-	 * Test of getDescription method, of class Budget.
-	 */
-	@Test
-	public void testGetDescription() {
-		System.out.println("getDescription");
-		Budget instance = new Budget();
-		String expResult = "this is a description";
-		instance.setDescription(expResult);
-		String result = instance.getDescription();
-		assertEquals(expResult, result);
-	}
-
-	/**
-	 * Test of setDescription method, of class Budget.
-	 */
-	@Test
-	public void testSetDescription() {
-		System.out.println("setDescription");
-		String d = "herpidy derp";
-		Budget instance = new Budget();
-		instance.setDescription(d);
-		assertEquals(d, instance.getDescription());
-	}
-
-	/**
-	 * Test of fetchLines method, of class Budget.
-	 */
-	@Test
-	public void testFetchLines() {
-		System.out.println("fetchLines");
-		Side side = null;
-		Budget instance = new Budget();
-		ArrayList result = instance.fetchLines(side);
-		assertNotNull(result);
-		// TODO better test
-	}
-
-	/**
-	 * Test of fetchNotes method, of class Budget.
-	 */
-	@Test
-	public void testFetchNotes() {
-		System.out.println("fetchNotes");
-		Budget instance = new Budget();
-		ArrayList result = instance.fetchNotes();
-		assertNotNull(result);
-		// TODO better test
-	}
-
-	/**
-	 * Test of createLine method, of class Budget.
-	 */
-	@Test
-	public void testCreateLine() {
-		System.out.println("createLine");
-		Budget b = new Budget();
-		Line result = (Line) b.createLine();
-		assertEquals(result.getBudgetId(), b.getId());
-		// TODO better test
-	}
-
-	/**
-	 * Test of createNote method, of class Budget.
-	 */
-	@Test
-	public void testCreateNote() {
-		System.out.println("createNote");
-		Budget instance = new Budget();
-		Note result = (Note) instance.createNote();
-		assertEquals(instance.getId(), result.getBudgetId());
-		// TODO better test
-	}
-
-	/**
-	 * Test of add method, of class Budget.
-	 */
-	@Test
-	public void testAdd_NoteInterface() {
-		System.out.println("add");
-		NoteInterface ni = new Note();
-		Budget instance = new Budget();
-                instance.setId(34);
-		instance.add(ni);
-                Note note = (Note)ni;
-                System.out.println("The notes id is:(drumroll)"+note.getBudgetId());
-		
-		try {
-			assertEquals(true, note.commit());
-		} catch (Exception e) {
-			fail("failed with exception: " + e);
-		}
-	}
-
-	/**
-	 * Test of delete method, of class Budget.
-	 */
-	@Test
-	public void testDelete_NoteInterface() {
-		System.out.println("delete");
-		NoteInterface ni = null;
-		Budget instance = new Budget();
-		instance.delete(ni);
-		// TODO better test
-	}
-
-	/**
-	 * Test of add method, of class Budget.
-	 */
-	@Test
-	public void testAdd_LineInterface() {
-		System.out.println("add");
-		LineInterface li = null;
-		Budget instance = new Budget();
-		instance.add(li);
-		// TODO better test
-	}
-
-	/**
-	 * Test of delete method, of class Budget.
-	 */
-	@Test
-	public void testDelete_LineInterface() {
-		System.out.println("delete");
-		LineInterface li = null;
-		Budget instance = new Budget();
-		instance.delete(li);
-		// TODO better test
-	}
-
-	/**
-	 * Test of update method, of class Budget.
-	 */
-	@Test
-	public void testUpdate_LineInterface() {
-		System.out.println("update");
-		LineInterface li = null;
-		Budget instance = new Budget();
-		instance.update(li);
-		// TODO better test
-	}
-
-	/**
-	 * Test of update method, of class Budget.
-	 */
-	@Test
-	public void testUpdate_NoteInterface() {
-		System.out.println("update");
-		NoteInterface ni = null;
-		Budget instance = new Budget();
-		instance.update(ni);
-		// TODO better test
-	}
-
-	/**
-	 * Test of getId method, of class Budget.
-	 */
-	@Test
-	public void testGetId() {
-		System.out.println("getId");
-		Budget instance = new Budget();
-		Integer expResult = -1;
-		Integer result = instance.getId();
-		assertEquals(expResult, result);
-	}
-
-	/**
-	 * Test of setName method, of class Budget.
-	 */
-	@Test
-	public void testSetName() {
-		System.out.println("setName");
-		String string = "Testing";
-		Budget instance = new Budget();
-		instance.setName(string);
-		assertEquals(instance.getName(), string);
-	}
-
-	/**
-	 * Test of getName method, of class Budget.
-	 */
-	@Test
-	public void testGetName() {
-		System.out.println("getName");
-		Budget instance = new Budget();
-		String expResult = "Name";
-		instance.setName(expResult);
-		String result = instance.getName();
-		assertEquals(expResult, result);
-	}
-
-	/**
-	 * Test of getUpdateDate method, of class Budget.
-	 */
-	@Test
-	public void testGetUpdateDate() {
-		System.out.println("getUpdateDate");
-		Budget instance = new Budget();
-		WorkDate expResult = null;
-		WorkDate result = instance.getUpdateDate();
-		assertEquals(expResult, result);
-		// TODO better test
-	}
-
-	/**
-	 * Test of commit method, of class Budget.
-	 */
-	@Test
-	public void testCommit() {
-		System.out.println("commit");
-		Budget instance = new Budget();
-		Boolean expResult = false;
-		try{
-		Boolean result = instance.commit();
-		}catch(Exception e){
-			fail("Commit failed"+e);
-		}
-		// TODO better test
-	}
-
-	/**
-	 * Test of getRepositoryName method, of class Budget.
-	 */
-	@Test
-	public void testGetRepositoryName() {
-		System.out.println("getRepositoryName");
-		Budget instance = new Budget();
-		String expResult = "Budgets";
-		String result = instance.getRepositoryName();
-		assertEquals(expResult, result);
-	}
 }

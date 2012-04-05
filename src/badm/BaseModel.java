@@ -91,11 +91,10 @@ abstract class BaseModel extends Entry implements BridgeInterface{
             for (Iterator<BridgeInterface> it = BridgeHelper.getHamper().keySet().iterator(); it.hasNext();) {
                 
                 BaseModel bm = (BaseModel)it.next();
-                System.out.println("Checking State"+ bm.getClass());
-                System.out.println(BridgeHelper.getHamper().get(bm));
                 if(BridgeHelper.getHamper().get(bm) == BridgeConstants.State.UPDATE ||
                         BridgeHelper.getHamper().get(bm) == BridgeConstants.State.CREATE){
                     something = MongoHelper.insert(bm,BaseModel.getStoreName(), bm.getRepositoryName());
+                    BridgeHelper.getHamper().remove(bm);
 		    setId(something);
                     System.out.println("Commiting "+bm.getId()+ " to repo");
                 }

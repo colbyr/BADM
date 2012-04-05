@@ -9,6 +9,7 @@ import badm.Note;
 import java.util.Date;
 import org.junit.*;
 import static org.junit.Assert.*;
+import org.workplicity.util.Helper;
 
 /**
  *

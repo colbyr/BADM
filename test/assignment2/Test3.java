@@ -75,7 +75,7 @@ public class Test3 {
 	public void queryBudget(){
 		try{
 			budget.setDescription("I'M A BUDGET!!!!!!!!");
-			budget.setTotal(1337);
+			budget.setTotal(1337.0);
 			budget.commit();
                         id = budget.getId();
 		}catch(Exception e){
