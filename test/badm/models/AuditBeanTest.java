@@ -40,8 +40,8 @@ public class AuditBeanTest {
     @Test
     public void testTimestamp() {
         Integer test = 123;
-        audit.setTimestamp(test);
-        assertEquals(test, audit.getTimestamp());
+        audit.setTimeStamp(test);
+        assertEquals(test, audit.getTimeStamp());
     }
 
     /**

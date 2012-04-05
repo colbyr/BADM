@@ -110,7 +110,7 @@ public class Audit extends BaseModel {
 		return timestamp;
 	}
         
-        public void setTimestamp(Integer time){
+        public void setTimeStamp(Integer time){
             timestamp = time;
             dirty();
         }
