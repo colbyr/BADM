@@ -224,5 +224,17 @@ public class Budget extends BaseModel implements BudgetInterface {
 	    }
 	    return null;
     }
+    
+    public static ArrayList<Budget> all(){
+        BasicDBObject query = new BasicDBObject();
+        BasicDBObject gt = new BasicDBObject("$gt", 1);
+        query.put("entry.id", gt);
+        try{
+            return MongoHelper.query(query,BaseModel.getStoreName(),new Budget().getRepositoryName());
+        }catch(Exception e){
+                System.out.println("couldnt find budgets");
+        }
+        return null;
+    }
 
 }

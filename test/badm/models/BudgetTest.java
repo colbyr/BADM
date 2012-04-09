@@ -94,6 +94,13 @@ public class BudgetTest {
             Budget readBudget = Budget.find(id);
             assertEquals(readBudget, null);
         }
+        
+        @Test
+        public void All(){
+            ArrayList<Budget> all = budget.all();
+            assert(all.size() > 0);
+            System.out.println("Size:"+all.size());
+        }
 	
 	
 }

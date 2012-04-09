@@ -7,6 +7,7 @@ package badm;
 
 import cc.test.bridge.BridgeConstants;
 import cc.test.bridge.BridgeInterface;
+import java.util.ArrayList;
 import java.util.Iterator;
 import org.codehaus.jackson.annotate.JsonIgnore;
 import org.workplicity.entry.Entry;
@@ -148,6 +149,10 @@ abstract class BaseModel extends Entry implements BridgeInterface{
 	public static BaseModel find(Integer id) {
 		throw new UnsupportedOperationException("Not supported yet.");
 	}
+        
+        public static ArrayList all(){
+            throw new UnsupportedOperationException("Not supported yet.");
+        }
         
 	/**
 	 * Update
