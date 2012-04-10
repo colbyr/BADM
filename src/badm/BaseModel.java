@@ -104,14 +104,14 @@ abstract class BaseModel extends Entry implements BridgeInterface{
                     }
                     else if(BridgeHelper.getHamper().get(bm) == BridgeConstants.State.UPDATE){
                         something = MongoHelper.update(bm,BaseModel.getStoreName(), bm.getRepositoryName());
-                        BridgeHelper.getHamper().remove(bm);
-                        setId(something);
+                        BridgeHelper.getHamper().remove(bm); 
+                       setId(something);
                         System.out.println("Commiting "+bm.getId()+ " to repo, update");   
                     }
                 }   
 		} catch(Exception e) {
 			System.out.println(this.getClass().getName()+" with id:" + id + " has not been commited because of error" + e);
-			return false;
+			//return false;
 		}
                 return (something > -1) ? true : false;
 	}

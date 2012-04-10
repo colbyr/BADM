@@ -227,7 +227,7 @@ public class Budget extends BaseModel implements BudgetInterface {
     
     public static ArrayList<Budget> all(){
         BasicDBObject query = new BasicDBObject();
-        BasicDBObject gt = new BasicDBObject("$gt", 1);
+        BasicDBObject gt = new BasicDBObject("$gt", -1);
         query.put("entry.id", gt);
         try{
             return MongoHelper.query(query,BaseModel.getStoreName(),new Budget().getRepositoryName());
