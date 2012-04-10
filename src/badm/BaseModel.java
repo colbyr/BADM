@@ -114,11 +114,9 @@ abstract class BaseModel extends Entry implements BridgeInterface{
                         System.out.println("Updated " + bm.getClass() + bm.getId() +  " failed to be commited "+ex);
                         continue;
                     }
-              
                 }
-                BridgeHelper.doTheLaundry();
             }
-            
+            BridgeHelper.doTheLaundry(); 
             return (newId > -1) ? true : false;
 	}
         
