@@ -8,7 +8,9 @@ package badm;
 import cc.test.bridge.BridgeConstants;
 import cc.test.bridge.BridgeInterface;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
 import org.codehaus.jackson.annotate.JsonIgnore;
 import org.workplicity.entry.Entry;
 import org.workplicity.task.NetTask;
@@ -91,29 +93,33 @@ abstract class BaseModel extends Entry implements BridgeInterface{
 	 */
         @Override
 	public Boolean commit() {
-	Integer something = -1;
-            try {
-                Iterator<BridgeInterface> it = BridgeHelper.getHamper().keySet().iterator();
-                while (it.hasNext()) {
-                    BaseModel bm = (BaseModel)it.next();
-                     if(BridgeHelper.getHamper().get(bm) == BridgeConstants.State.CREATE){
-                        something = MongoHelper.insert(bm,BaseModel.getStoreName(), bm.getRepositoryName());
-                        BridgeHelper.getHamper().remove(bm);
-                        setId(something);
-                        System.out.println("Commiting "+bm.getId()+ " to repo, new");   
+            Integer newId = -1;
+            Map hamper =  BridgeHelper.getHamper();
+            Iterator it = hamper.keySet().iterator();
+            while(it.hasNext()){
+                BaseModel bm = (BaseModel) it.next();
+                if(hamper.get(bm) == BridgeConstants.State.CREATE){
+                    try {
+                        newId = MongoHelper.insert(bm,BaseModel.getStoreName(), bm.getRepositoryName());
+                        
+                    } catch (Exception ex) {
+                        System.out.println("New " + bm.getClass() + bm.getId() + " failed to be commited "+ex);
+                        continue;
                     }
-                    else if(BridgeHelper.getHamper().get(bm) == BridgeConstants.State.UPDATE){
-                        something = MongoHelper.update(bm,BaseModel.getStoreName(), bm.getRepositoryName());
-                        BridgeHelper.getHamper().remove(bm); 
-                       setId(something);
-                        System.out.println("Commiting "+bm.getId()+ " to repo, update");   
+                }
+                else if(hamper.get(bm) == BridgeConstants.State.UPDATE){
+                    try {
+                        newId = MongoHelper.update(bm,BaseModel.getStoreName(), bm.getRepositoryName());
+                    } catch (Exception ex) {
+                        System.out.println("Updated " + bm.getClass() + bm.getId() +  " failed to be commited "+ex);
+                        continue;
                     }
-                }   
-		} catch(Exception e) {
-			System.out.println(this.getClass().getName()+" with id:" + id + " has not been commited because of error" + e);
-			//return false;
-		}
-                return (something > -1) ? true : false;
+              
+                }
+                BridgeHelper.doTheLaundry();
+            }
+            
+            return (newId > -1) ? true : false;
 	}
         
         public Boolean delete(){
@@ -171,9 +177,21 @@ abstract class BaseModel extends Entry implements BridgeInterface{
         
         
         public void dirty(){
-            if(BridgeHelper.getHamper().get(this) != BridgeConstants.State.CREATE){
+            if(!BridgeHelper.getHamper().containsKey(this)){
             BridgeHelper.getHamper().put(this,BridgeConstants.State.UPDATE);
             }
         }
 	
 }
+// if(BridgeHelper.getHamper().get(bm) == BridgeConstants.State.CREATE){
+//                        something = MongoHelper.insert(bm,BaseModel.getStoreName(), bm.getRepositoryName());
+//                        BridgeHelper.getHamper().remove(bm);
+//                        setId(something);
+//                        System.out.println("Commiting "+bm.getId()+ " to repo, new");   
+//                    }
+//                    else if(BridgeHelper.getHamper().get(bm) == BridgeConstants.State.UPDATE){
+//                        something = MongoHelper.update(bm,BaseModel.getStoreName(), bm.getRepositoryName());
+//                        BridgeHelper.getHamper().remove(bm); 
+//                    setId(something);
+//                        System.out.println("Commiting "+bm.getId()+ " to repo, update");   
+//                    }

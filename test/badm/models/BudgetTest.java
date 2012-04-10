@@ -52,7 +52,7 @@ public class BudgetTest {
 	
 	@Before
 	public void setUp() {
-		budget = (Budget) new BudgetFactory().create();
+		budget = new Budget();
                 budget.setName("I'm a budget");
                 budget.setTotal(4000.0);
                 budget.commit();

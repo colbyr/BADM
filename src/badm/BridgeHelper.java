@@ -18,7 +18,10 @@ package badm;
 import cc.test.bridge.BridgeConstants.State;
 import cc.test.bridge.BridgeInterface;
 import cc.test.bridge.BudgetFactoryInterface;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.Hashtable;
+import java.util.Map;
 
 
 /**
@@ -69,13 +72,17 @@ public class BridgeHelper {
      * Hamper where dirty objects and their dirty state is stored for
      * reference by the model.
      */
-    protected static HashMap<BridgeInterface, State> hamper = new HashMap<BridgeInterface, State>();
+    protected static HashMap<BridgeInterface, State> hamper = new  HashMap<BridgeInterface, State>();
 
     /**
      * Gets the hamper.
      * @return Hamper
      */
     public static HashMap<BridgeInterface, State> getHamper() {
-        return hamper;
+        return  hamper;
+    }
+    
+    public static void doTheLaundry(){
+        hamper = new  HashMap<BridgeInterface, State>();
     }
 }
