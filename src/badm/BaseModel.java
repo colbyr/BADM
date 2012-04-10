@@ -94,29 +94,28 @@ abstract class BaseModel extends Entry implements BridgeInterface{
         @Override
 	public Boolean commit() {
             Integer newId = -1;
-            Map hamper =  BridgeHelper.getHamper();
+            HashMap hamper =  BridgeHelper.getHamper();
             Iterator it = hamper.keySet().iterator();
             while(it.hasNext()){
                 BaseModel bm = (BaseModel) it.next();
                 if(hamper.get(bm) == BridgeConstants.State.CREATE){
                     try {
                         newId = MongoHelper.insert(bm,BaseModel.getStoreName(), bm.getRepositoryName());
-                        
+                        System.out.println("New item being added "+ bm.getClass() + bm.getName()+ bm.getId());
                     } catch (Exception ex) {
                         System.out.println("New " + bm.getClass() + bm.getId() + " failed to be commited "+ex);
-                        continue;
                     }
                 }
                 else if(hamper.get(bm) == BridgeConstants.State.UPDATE){
                     try {
                         newId = MongoHelper.update(bm,BaseModel.getStoreName(), bm.getRepositoryName());
+                        System.out.println("Item being updated "+ bm.getClass() + bm.getName()+ bm.getId());
                     } catch (Exception ex) {
                         System.out.println("Updated " + bm.getClass() + bm.getId() +  " failed to be commited "+ex);
-                        continue;
                     }
                 }
             }
-            BridgeHelper.doTheLaundry(); 
+            hamper.clear();
             return (newId > -1) ? true : false;
 	}
         
@@ -176,7 +175,7 @@ abstract class BaseModel extends Entry implements BridgeInterface{
         
         public void dirty(){
             if(!BridgeHelper.getHamper().containsKey(this)){
-            BridgeHelper.getHamper().put(this,BridgeConstants.State.UPDATE);
+                BridgeHelper.getHamper().put(this,BridgeConstants.State.UPDATE);
             }
         }
 	

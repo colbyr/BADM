@@ -82,7 +82,7 @@ public class BridgeHelper {
         return  hamper;
     }
     
-    public static void doTheLaundry(){
-        hamper = new  HashMap<BridgeInterface, State>();
-    }
+//    public static void doTheLaundry(){
+//        hamper = new  HashMap<BridgeInterface, State>();
+//    }
 }

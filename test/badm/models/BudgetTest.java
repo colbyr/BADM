@@ -100,6 +100,9 @@ public class BudgetTest {
             ArrayList<Budget> all = budget.all();
             assert(all.size() > 0);
             System.out.println("Size:"+all.size());
+            for(int i=0; i<all.size(); i+=1){
+                System.out.println(all.get(i).getId());
+            }
         }
 	
 	
