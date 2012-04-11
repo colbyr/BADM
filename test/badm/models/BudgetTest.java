@@ -63,32 +63,33 @@ public class BudgetTest {
 	public void tearDown() {
 	}
 
-	@Test
-	public void create(){
-                System.out.println("Create");
-                budget = (Budget) new BudgetFactory().create();
-                budget.commit();
-		assert(budget.getId() > -1);
-	}
-        
-        @Test
-        public void read(){
-            System.out.println("Read");
-            Budget readBudget = Budget.find(budget.getId());
-            assert(budget.getName().equals(readBudget.getName()));
-        }
-        
-        @Test
-        public void Update(){
-            System.out.println("Update");
-            budget.setTotal(6000.0);
-            budget.commit();
-            Budget readBudget = Budget.find(budget.getId());
-            assertEquals((Double)readBudget.getTotal(), (Double)6000.0);
-        }
+//	@Test
+//	public void create(){
+//                System.out.println("Create");
+//                budget = new Budget();
+//                budget.commit();
+//		assert(budget.getId() > -1);
+//	}
+//        
+//        @Test
+//        public void read(){
+//            System.out.println("Read");
+//            Budget readBudget = Budget.find(budget.getId());
+//            assert(budget.getName().equals(readBudget.getName()));
+//        }
+//        
+//        @Test
+//        public void Update(){
+//            System.out.println("Update");
+//            budget.setTotal(6000.0);
+//            budget.commit();
+//            Budget readBudget = Budget.find(budget.getId());
+//            assertEquals((Double)readBudget.getTotal(), (Double)6000.0);
+//        }
         
         @Test
         public void Delete(){
+            System.out.println("Delete");
             Integer id = budget.getId();
             budget.delete();
             Budget readBudget = Budget.find(id);
@@ -97,6 +98,7 @@ public class BudgetTest {
         
         @Test
         public void All(){
+            System.out.println("All");
             ArrayList<Budget> all = budget.all();
             assert(all.size() > 0);
             System.out.println("Size:"+all.size());

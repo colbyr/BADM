@@ -32,12 +32,7 @@ public class BudgetFactory implements BudgetFactoryInterface {
     @Override
     public BudgetInterface create() {
         // Create a budget
-        Budget budget = new Budget();
-        
-        // Flag it in the hamper as dirty -- it will be written through
-        // on commit
-        BridgeHelper.getHamper().put(budget,State.CREATE);
-        
+        Budget budget = new Budget();     
         return budget;
     }
 

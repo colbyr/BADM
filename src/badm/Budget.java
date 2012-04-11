@@ -11,6 +11,7 @@ import cc.test.bridge.LineInterface;
 import cc.test.bridge.NoteInterface;
 import com.mongodb.BasicDBObject;
 import java.util.ArrayList;
+import org.codehaus.jackson.annotate.JsonIgnore;
 import org.workplicity.util.Helper;
 import org.workplicity.util.MongoHelper;
 import org.workplicity.worklet.WorkletContext;
@@ -48,7 +49,6 @@ public class Budget extends BaseModel implements BudgetInterface {
      */
     @Override
     public String getDescription() {
-        BridgeHelper.getHamper().put(this,BridgeConstants.State.UPDATE);
         return description;
     }
     
@@ -201,6 +201,7 @@ public class Budget extends BaseModel implements BudgetInterface {
      * Updates the Budget then stashes the Audit in AuditLand.
      * @param audit The Audit to use as a refrence for the update
      */
+    @Override
     public void update(Audit audit){
         super.update(audit);
         total += audit.getValue();
@@ -218,7 +219,7 @@ public class Budget extends BaseModel implements BudgetInterface {
 	    query.put("entry.id", id);
 	    System.out.println(id);
 	    try{
-		return (Budget) MongoHelper.query(query,BaseModel.getStoreName(),new Budget().getRepositoryName()).get(0);
+		return (Budget) MongoHelper.query(query,BaseModel.getStoreName(),repoName).get(0);
 	    }catch(Exception e){
 		    System.out.println("couldnt find budget #"+id+" "+e);
 	    }
@@ -230,11 +231,12 @@ public class Budget extends BaseModel implements BudgetInterface {
         BasicDBObject gt = new BasicDBObject("$gt", -1);
         query.put("entry.id", gt);
         try{
-            return MongoHelper.query(query,BaseModel.getStoreName(),new Budget().getRepositoryName());
+            return MongoHelper.query(query,BaseModel.getStoreName(), repoName);
         }catch(Exception e){
                 System.out.println("couldnt find budgets");
         }
         return null;
     }
-
+    @JsonIgnore
+    public final static String repoName = "Budgets";
 }

@@ -95,9 +95,11 @@ abstract class BaseModel extends Entry implements BridgeInterface{
 	public Boolean commit() {
             Integer newId = -1;
             HashMap hamper =  BridgeHelper.getHamper();
+            
             Iterator it = hamper.keySet().iterator();
             while(it.hasNext()){
                 BaseModel bm = (BaseModel) it.next();
+                System.out.println("hamper:" + bm.getName());
                 if(hamper.get(bm) == BridgeConstants.State.CREATE){
                     try {
                         newId = MongoHelper.insert(bm,BaseModel.getStoreName(), bm.getRepositoryName());
@@ -116,6 +118,7 @@ abstract class BaseModel extends Entry implements BridgeInterface{
                 }
             }
             hamper.clear();
+            System.out.println("HAMPER SIZE:"+BridgeHelper.getHamper().size());
             return (newId > -1) ? true : false;
 	}
         
@@ -180,15 +183,3 @@ abstract class BaseModel extends Entry implements BridgeInterface{
         }
 	
 }
-// if(BridgeHelper.getHamper().get(bm) == BridgeConstants.State.CREATE){
-//                        something = MongoHelper.insert(bm,BaseModel.getStoreName(), bm.getRepositoryName());
-//                        BridgeHelper.getHamper().remove(bm);
-//                        setId(something);
-//                        System.out.println("Commiting "+bm.getId()+ " to repo, new");   
-//                    }
-//                    else if(BridgeHelper.getHamper().get(bm) == BridgeConstants.State.UPDATE){
-//                        something = MongoHelper.update(bm,BaseModel.getStoreName(), bm.getRepositoryName());
-//                        BridgeHelper.getHamper().remove(bm); 
-//                    setId(something);
-//                        System.out.println("Commiting "+bm.getId()+ " to repo, update");   
-//                    }
