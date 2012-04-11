@@ -219,7 +219,9 @@ public class Budget extends BaseModel implements BudgetInterface {
 	    query.put("entry.id", id);
 	    System.out.println(id);
 	    try{
-		return (Budget) MongoHelper.query(query,BaseModel.getStoreName(),repoName).get(0);
+                Budget b = (Budget) MongoHelper.query(query,BaseModel.getStoreName(),repoName).get(0);
+                trimHamper(b);
+                return b;
 	    }catch(Exception e){
 		    System.out.println("couldnt find budget #"+id+" "+e);
 	    }
@@ -231,7 +233,9 @@ public class Budget extends BaseModel implements BudgetInterface {
         BasicDBObject gt = new BasicDBObject("$gt", -1);
         query.put("entry.id", gt);
         try{
-            return MongoHelper.query(query,BaseModel.getStoreName(), repoName);
+            ArrayList list = MongoHelper.query(query,BaseModel.getStoreName(), repoName);
+            trimHamper(list);
+            return list;
         }catch(Exception e){
                 System.out.println("couldnt find budgets");
         }

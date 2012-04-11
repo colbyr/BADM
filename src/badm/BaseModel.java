@@ -68,6 +68,7 @@ abstract class BaseModel extends Entry implements BridgeInterface{
 		return name;
 	}
         
+        @JsonIgnore
         public BaseModel(){
             BridgeHelper.getHamper().put(this,BridgeConstants.State.CREATE);
         }
@@ -95,11 +96,9 @@ abstract class BaseModel extends Entry implements BridgeInterface{
 	public Boolean commit() {
             Integer newId = -1;
             HashMap hamper =  BridgeHelper.getHamper();
-            
             Iterator it = hamper.keySet().iterator();
             while(it.hasNext()){
                 BaseModel bm = (BaseModel) it.next();
-                System.out.println("hamper:" + bm.getName());
                 if(hamper.get(bm) == BridgeConstants.State.CREATE){
                     try {
                         newId = MongoHelper.insert(bm,BaseModel.getStoreName(), bm.getRepositoryName());
@@ -118,7 +117,6 @@ abstract class BaseModel extends Entry implements BridgeInterface{
                 }
             }
             hamper.clear();
-            System.out.println("HAMPER SIZE:"+BridgeHelper.getHamper().size());
             return (newId > -1) ? true : false;
 	}
         
@@ -177,8 +175,21 @@ abstract class BaseModel extends Entry implements BridgeInterface{
         
         
         public void dirty(){
-            if(!BridgeHelper.getHamper().containsKey(this)){
+            if(this.id != -1){
                 BridgeHelper.getHamper().put(this,BridgeConstants.State.UPDATE);
+            }
+        }
+        
+        protected static void trimHamper(BaseModel bm){
+            HashMap hamper =  BridgeHelper.getHamper();
+            if(bm.getId() != -1 && hamper.containsKey(bm) && hamper.get(bm) == BridgeConstants.State.CREATE){
+                hamper.remove(bm);
+            }
+        }
+        
+        protected static void trimHamper(ArrayList<BaseModel> list){
+            for(BaseModel bm : list){
+                trimHamper(bm);
             }
         }
 	

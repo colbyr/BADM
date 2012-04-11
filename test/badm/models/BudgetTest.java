@@ -78,34 +78,39 @@ public class BudgetTest {
 //            assert(budget.getName().equals(readBudget.getName()));
 //        }
 //        
+        @Test
+        public void Update(){
+            System.out.println("Update");
+            budget.setTotal(6000.0);
+            budget.commit();
+            Budget readBudget = Budget.find(budget.getId());
+            System.out.println("ReadBudget's id is. DRUMROLL....."+readBudget.getId());
+            assertEquals((Double)readBudget.getTotal(), (Double)6000.0);
+            System.out.println("ReadBudget's id is still. DRUMROLL....."+readBudget.getId());
+            readBudget.setDescription("yay");
+            readBudget.commit();
+             System.out.println("ReadBudget's id is finally. DRUMROLL....."+readBudget.getId());
+        }
+        
 //        @Test
-//        public void Update(){
-//            System.out.println("Update");
-//            budget.setTotal(6000.0);
-//            budget.commit();
-//            Budget readBudget = Budget.find(budget.getId());
-//            assertEquals((Double)readBudget.getTotal(), (Double)6000.0);
+//        public void Delete(){
+//            System.out.println("Delete");
+//            Integer id = budget.getId();
+//            budget.delete();
+//            Budget readBudget = Budget.find(id);
+//            assertEquals(readBudget, null);
 //        }
-        
-        @Test
-        public void Delete(){
-            System.out.println("Delete");
-            Integer id = budget.getId();
-            budget.delete();
-            Budget readBudget = Budget.find(id);
-            assertEquals(readBudget, null);
-        }
-        
-        @Test
-        public void All(){
-            System.out.println("All");
-            ArrayList<Budget> all = budget.all();
-            assert(all.size() > 0);
-            System.out.println("Size:"+all.size());
-            for(int i=0; i<all.size(); i+=1){
-                System.out.println(all.get(i).getId());
-            }
-        }
+//        
+//        @Test
+//        public void All(){
+//            System.out.println("All");
+//            ArrayList<Budget> all = budget.all();
+//            assert(all.size() > 0);
+//            System.out.println("Size:"+all.size());
+//            for(int i=0; i<all.size(); i+=1){
+//                System.out.println(all.get(i).getId());
+//            }
+//        }
 	
 	
 }
