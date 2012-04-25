@@ -95,8 +95,7 @@ public class Transaction extends BaseModel implements TransactionInterface {
                         su.update(audit);
                 /*}catch(NullPointerException e){
                     System.out.println("Subline associated with Transcation #"+id+
-                            " with subline id of " + sublineId + " does not exits" +
-                            Thread.currentThread().getStackTrace());
+                            " with subline id of " + sublineId + " does not exits");
                 }*/
 	}
 

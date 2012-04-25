@@ -27,7 +27,17 @@ import org.workplicity.worklet.WorkletContext;
 abstract class BaseModel extends Entry implements BridgeInterface{
 	
     
-        String name;
+    String name;
+    Double goal;
+
+    public Double getGoal() {
+        return goal;
+    }
+
+    public void setGoal(Double goal) {
+        this.goal = goal;
+    }
+
         
     @JsonIgnore
     public final static String budgetRepo = "Budgets";

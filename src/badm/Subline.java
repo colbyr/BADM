@@ -138,16 +138,8 @@ public class Subline extends Line implements SublineInterface {
         
         @Override
         public void update(Audit audit){
-            audit.getUpdated().add(0, id);
-            double value = audit.getValue();
-            if(total == null)
-            {
-                total = value;
-            }
-            else
-            {
-                total += value;
-            }
+            //audit.getUpdated().add(0, id);
+            super.update(audit);
             Line li = Line.find(lineId);
             System.out.println("line:"+li.getId());
                  li.update(audit);

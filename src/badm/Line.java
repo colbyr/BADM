@@ -26,16 +26,6 @@ public class Line extends BaseModel implements LineInterface {
     Integer number;
     Integer budgetId;
     Double total;
-    Double goal;
-
-    public Double getGoal() {
-        return goal;
-    }
-
-    public void setGoal(Double goal) {
-        dirty();
-        this.goal = goal;
-    }
     
     /**
      * 
@@ -131,6 +121,7 @@ public class Line extends BaseModel implements LineInterface {
     public void add(SublineInterface si) {
             Subline subline = (Subline)si;
             subline.setLineId(id);
+            subline.setBudgetId(budgetId);
     }
 
     /**
@@ -167,8 +158,7 @@ public class Line extends BaseModel implements LineInterface {
         }
         dirty();
         Budget bu = Budget.find(budgetId);
-        
-               bu.update(audit);
+        bu.update(audit);
     }
     
     /**
