@@ -190,7 +190,7 @@ abstract class BaseModel extends Entry implements BridgeInterface{
         
         
         public void dirty(){
-            if(this.id != -1){
+            if(this.id != -1 && !BridgeHelper.getHamper().containsKey(this)){
                 BridgeHelper.getHamper().put(this,BridgeConstants.State.UPDATE);
             }
         }

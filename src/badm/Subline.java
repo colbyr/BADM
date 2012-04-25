@@ -127,9 +127,8 @@ public class Subline extends Line implements SublineInterface {
             BasicDBObject query = new BasicDBObject();
             query.put("entry.id", id);
             try{
-                System.out.println("LOOKING FOR "+id);
                 Subline su = (Subline) MongoHelper.query(query,BaseModel.getStoreName(),sublineRepo).get(0);
-                System.out.println(su.getId());
+                trimHamper(su);
                 return su;
             }catch(Exception e){
                     System.out.println("couldnt find Subline #"+id+" "+e);
@@ -139,11 +138,16 @@ public class Subline extends Line implements SublineInterface {
         
         @Override
         public void update(Audit audit){
-            
-            super.update(audit);
-            
-            System.out.println("update subline");
-            total += audit.getValue();
+            audit.getUpdated().add(0, id);
+            double value = audit.getValue();
+            if(total == null)
+            {
+                total = value;
+            }
+            else
+            {
+                total += value;
+            }
             Line li = Line.find(lineId);
             System.out.println("line:"+li.getId());
                  li.update(audit);

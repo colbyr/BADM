@@ -204,7 +204,15 @@ public class Budget extends BaseModel implements BudgetInterface {
     @Override
     public void update(Audit audit){
         super.update(audit);
-        total += audit.getValue();
+        double value = audit.getValue();
+        if(total == null)
+        {
+            total = value;
+        }
+        else
+        {
+            total += value;
+        }
         System.out.println("THE BUDGET IS WORTH"+total);
         addAudit(audit);
     }

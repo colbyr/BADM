@@ -156,10 +156,18 @@ public class Line extends BaseModel implements LineInterface {
     @Override
     public void update(Audit audit){
         super.update(audit);
-        total += audit.getValue();
+        double value = audit.getValue();
+        if(total == null)
+        {
+            total = value;
+        }
+        else
+        {
+            total += value;
+        }
         dirty();
         Budget bu = Budget.find(budgetId);
-        System.out.println(bu.getId());
+        
                bu.update(audit);
     }
     
@@ -172,8 +180,9 @@ public class Line extends BaseModel implements LineInterface {
         BasicDBObject query = new BasicDBObject();
         query.put("entry.id", id);
         try{
-            System.out.println("looking for line #"+id);
-            return (Line) MongoHelper.query(query,BaseModel.getStoreName(),repoName).get(0);
+           Line li = (Line) MongoHelper.query(query,BaseModel.getStoreName(),repoName).get(0);
+           trimHamper(li);
+           return li;
         }catch(Exception e){
                 System.out.println("couldnt find line #"+id+" "+e);
         }
