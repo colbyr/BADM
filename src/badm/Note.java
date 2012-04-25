@@ -123,7 +123,9 @@ public class Note extends BaseModel implements NoteInterface {
 		query.put("entry.id", id);
 		System.out.println(id);
 		try{
-			return (Note) MongoHelper.query(query, BaseModel.getStoreName(),new Note().getRepositoryName()).get(0);
+			Note note = (Note) MongoHelper.query(query, BaseModel.getStoreName(),noteRepo).get(0);
+                        trimHamper(note);
+                        return note;
 		}catch(Exception e){
 			System.out.println("couldnt find note #"+id+" "+e);
 			return null;

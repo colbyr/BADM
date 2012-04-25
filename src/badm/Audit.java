@@ -125,7 +125,9 @@ public class Audit extends BaseModel {
 	    query.put("entry.id", id);
 	    System.out.println(id);
 	    try{
-		return (Audit) MongoHelper.query(query,BaseModel.getStoreName(),new Audit().getRepositoryName()).get(0);
+		Audit audit = (Audit) MongoHelper.query(query,BaseModel.getStoreName(),auditRepo).get(0);
+                trimHamper(audit);
+                return audit;
 	    }catch(Exception e){
 		    System.out.println("couldnt find audit #"+id+" "+e);
 	    }

@@ -97,7 +97,9 @@ public class Budget extends BaseModel implements BudgetInterface {
         BasicDBObject query = new BasicDBObject();
         query.put("entry.budgetId", id);
         try{
-            return MongoHelper.query(query,BaseModel.getStoreName(),noteRepo);
+            ArrayList list = MongoHelper.query(query,BaseModel.getStoreName(),noteRepo);
+            trimHamper(list);
+            return list;
         }catch(Exception e){
                 System.out.println("couldn't fetch notes"+e);
         }
@@ -114,7 +116,9 @@ public class Budget extends BaseModel implements BudgetInterface {
         BasicDBObject query = new BasicDBObject();
         query.put("entry.budgetId", id);
         try{
-            return MongoHelper.query(query,BaseModel.getStoreName(),auditRepo);
+            ArrayList list = MongoHelper.query(query,BaseModel.getStoreName(),auditRepo);
+            trimHamper(list);
+            return list;
         }catch(Exception e){
                 System.out.println("couldn't fetch notes"+e);
         }

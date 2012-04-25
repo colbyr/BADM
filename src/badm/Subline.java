@@ -55,9 +55,10 @@ public class Subline extends Line implements SublineInterface {
 	public ArrayList<TransactionInterface> fetchTransactions() {
 		BasicDBObject query = new BasicDBObject();
 		query.put("entry.sublineId", id);
-		ArrayList<TransactionInterface> result;
+		ArrayList result;
 		try {
 			result = MongoHelper.query(query, BaseModel.getStoreName(), transactionRepo);
+                        trimHamper(result);
 		} catch (Exception e) {
 			result = null;
 			System.out.println("couldn't fetch transactions" + e);

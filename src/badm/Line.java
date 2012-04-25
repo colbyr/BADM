@@ -112,7 +112,9 @@ public class Line extends BaseModel implements LineInterface {
         BasicDBObject query = new BasicDBObject();
         query.put("entry.lineId", id);
         try{
-            return MongoHelper.query(query,BaseModel.getStoreName(),"Sublines");
+            ArrayList list = MongoHelper.query(query,BaseModel.getStoreName(),"Sublines");
+            trimHamper(list);
+            return list;
         }catch(Exception e){
                 System.out.println("Couldnt fetch sublines of Line #"+number
                         +" because of error:"+e);
