@@ -18,6 +18,9 @@ import static org.junit.Assert.*;
 public class FullTest {
     
     static Budget badassbudget;
+    static Line mrliney;
+    static Subline sub;
+    static Transaction tran;
     
     public FullTest() {
     }
@@ -35,7 +38,21 @@ public class FullTest {
         badassbudget = new Budget();
         badassbudget.setDescription("I'm gona kick your ass");
         badassbudget.commit();
-        
+        mrliney = new Line();
+        mrliney.setGoal(1000.0);
+        badassbudget.commit();
+        badassbudget.add(mrliney);
+        badassbudget.commit();
+        sub = new Subline();
+        sub.setGoal(200.0);
+        sub.commit();
+        mrliney.add(sub);
+        mrliney.commit();
+        tran = new Transaction();
+        tran.setAmount(150.0);
+        sub.commit();
+        sub.add(tran);
+        sub.commit();
     }
     
     @After
@@ -44,89 +61,42 @@ public class FullTest {
 
      @Test
      public void lines() {
-        Line mrliney = new Line();
-        mrliney.setGoal(1000.0);
-        badassbudget.commit();
-        badassbudget.add(mrliney);
-        badassbudget.commit();
         Integer id = badassbudget.getId();
         Budget budget = Budget.find(id);
         Line line = (Line) budget.fetchLines(BridgeConstants.Side.INCOME).get(0);
-        System.out.println(line.getGoal());
-        System.out.println(mrliney.getGoal());
         assert(line.getGoal().equals(mrliney.getGoal()));
      }
      
      @Test
      public void sublines() {
-        Line mrliney = new Line();
-        mrliney.setGoal(1000.0);
-        badassbudget.commit();
-        badassbudget.add(mrliney);
-        badassbudget.commit();
-        Subline sub = new Subline();
-        sub.setGoal(200.0);
-        sub.commit();
-        mrliney.add(sub);
-        mrliney.commit();
         Integer id = badassbudget.getId();
         Budget budget = Budget.find(id);
         Subline subline = (Subline) budget.fetchLines(BridgeConstants.Side.INCOME).get(0)
                 .fetchSublines().get(0);
-        System.out.println(subline.getGoal());
-        System.out.println(sub.getGoal());
         assert(subline.getGoal().equals(sub.getGoal()));
      }
      
      @Test
      public void transactions() {
-        Line mrliney = new Line();
-        mrliney.setGoal(1000.0);
-        badassbudget.commit();
-        badassbudget.add(mrliney);
-        badassbudget.commit();
-        Subline sub = new Subline();
-        sub.setGoal(200.0);
-        sub.commit();
-        mrliney.add(sub);
-        mrliney.commit();
-        Transaction tran = new Transaction();
-        tran.setAmount(150.0);
-        sub.commit();
-        System.out.println(tran.getId());
-        sub.add(tran);
-        sub.commit();
         Integer id = badassbudget.getId();
         Budget budget = Budget.find(id);
         Transaction transaction =(Transaction) budget.fetchLines(BridgeConstants.Side.INCOME).get(0)
                 .fetchSublines().get(0).fetchTransactions().get(0);
-        System.out.println(transaction.getAmount());
-        System.out.println(tran.getAmount());
         assert(transaction.getAmount().equals(tran.getAmount()));
      }
      
      @Test
      public void autoUpdate() {
-        Line mrliney = new Line();
-        mrliney.setGoal(1000.0);
-        badassbudget.commit();
-        badassbudget.add(mrliney);
-        badassbudget.commit();
-        Subline sub = new Subline();
-        sub.setGoal(200.0);
-        sub.commit();
-        mrliney.add(sub);
-        mrliney.commit();
-        Transaction tran = new Transaction();
-        sub.commit();
-        sub.add(tran);
-        sub.commit();
         tran.setAmount(150.0);
-        sub.commit();
-        Audit audit = new Audit();
-	audit.setValue(150.0);
-        audit.setUpdated(new ArrayList<Integer>());
-        tran.update(audit);
+        badassbudget.commit();
+        Integer id = badassbudget.getId();
+        Budget budget = Budget.find(id);
+        assert(budget.getTotal().equals(tran.getAmount()));
+     }
+     
+     @Test
+     public void auditTrail(){
+        tran.setAmount(150.0);
         tran.commit();
         Integer id = badassbudget.getId();
         Budget budget = Budget.find(id);

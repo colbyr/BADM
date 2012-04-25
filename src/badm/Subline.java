@@ -140,9 +140,8 @@ public class Subline extends Line implements SublineInterface {
         public void update(Audit audit){
             //audit.getUpdated().add(0, id);
             super.update(audit);
-            Line li = Line.find(lineId);
-            System.out.println("line:"+li.getId());
-                 li.update(audit);
+            Line.find(lineId).update(audit);
+                 
         }
         
     

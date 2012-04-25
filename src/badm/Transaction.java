@@ -81,22 +81,24 @@ public class Transaction extends BaseModel implements TransactionInterface {
 	 */
 	@Override
 	public void setAmount(Double amount) {
-		this.amount = amount;
-                dirty();
+            this.amount = amount;
+            Audit audit = new Audit();
+            audit.setValue(amount);
+            audit.setUpdated(new ArrayList<Integer>());
+            dirty();
+            update(audit);
 	}
 
 	@Override
 	public void update(Audit audit) {
-		super.update(audit);
-		audit.setDescription("Change in transaction " + this.getId() + " " + audit.getValue());
-                //try{
-		Subline su = Subline.find(sublineId);
-                System.out.println(su.getId());
-                        su.update(audit);
-                /*}catch(NullPointerException e){
-                    System.out.println("Subline associated with Transcation #"+id+
-                            " with subline id of " + sublineId + " does not exits");
-                }*/
+            super.update(audit);
+            audit.setDescription("Change in transaction " + this.getId() + " " + audit.getValue());
+            try{
+                Subline.find(sublineId).update(audit);
+            }catch(NullPointerException e){
+                System.out.println("Subline associated with Transcation #"+id+
+                        " with subline id of " + sublineId + " does not exits");
+            }
 	}
 
 	/**

@@ -47,7 +47,12 @@ abstract class BaseModel extends Entry implements BridgeInterface{
     public final static String sublineRepo = "Sublines";
     @JsonIgnore
     public final static String transactionRepo = "Transactions";
-        
+    @JsonIgnore
+    public final static String noteRepo = "Notes";
+    @JsonIgnore
+    public final static String auditRepo = "Audits";
+    @JsonIgnore
+    protected String repositoryName = "";    
         
         @Override
         public void setName(String name){
@@ -63,9 +68,7 @@ abstract class BaseModel extends Entry implements BridgeInterface{
 	 *
 	 * name of the model's Mongo collection
 	 */
-	
-	@JsonIgnore
-	protected String repositoryName = "";
+
 	
 	/**
 	 * Get Repository Name
@@ -123,7 +126,7 @@ abstract class BaseModel extends Entry implements BridgeInterface{
                 if(hamper.get(bm) == BridgeConstants.State.CREATE){
                     try {
                         newId = MongoHelper.insert(bm,BaseModel.getStoreName(), bm.getRepositoryName());
-                        System.out.println("New item being added "+ bm.getClass() + bm.getRepositoryName()+ bm.getId());
+                        //System.out.println("New item being added "+ bm.getClass() + bm.getRepositoryName()+ bm.getId());
                     } catch (Exception ex) {
                         System.out.println("New " + bm.getClass() + bm.getId() + " failed to be commited "+ex);
                     }
@@ -131,7 +134,7 @@ abstract class BaseModel extends Entry implements BridgeInterface{
                 else if(hamper.get(bm) == BridgeConstants.State.UPDATE){
                     try {
                         newId = MongoHelper.update(bm,BaseModel.getStoreName(), bm.getRepositoryName());
-                        System.out.println("Item being updated "+ bm.getClass() + bm.getName()+ bm.getId());
+                        //System.out.println("Item being updated "+ bm.getClass() + bm.getName()+ bm.getId());
                     } catch (Exception ex) {
                         System.out.println("Updated " + bm.getClass() + bm.getId() +  " failed to be commited "+ex);
                     }

@@ -157,8 +157,7 @@ public class Line extends BaseModel implements LineInterface {
             total += value;
         }
         dirty();
-        Budget bu = Budget.find(budgetId);
-        bu.update(audit);
+        Budget.find(budgetId).update(audit);
     }
     
     /**
@@ -170,7 +169,7 @@ public class Line extends BaseModel implements LineInterface {
         BasicDBObject query = new BasicDBObject();
         query.put("entry.id", id);
         try{
-           Line li = (Line) MongoHelper.query(query,BaseModel.getStoreName(),repoName).get(0);
+           Line li = (Line) MongoHelper.query(query,BaseModel.getStoreName(),lineRepo).get(0);
            trimHamper(li);
            return li;
         }catch(Exception e){
@@ -178,8 +177,5 @@ public class Line extends BaseModel implements LineInterface {
         }
         return null;
     }
-    
-    @JsonIgnore
-    public final static String repoName = "Lines";
 
 }

@@ -73,7 +73,7 @@ public class Budget extends BaseModel implements BudgetInterface {
         BasicDBObject query = new BasicDBObject();
         query.put("entry.budgetId", id);
         try{
-            return MongoHelper.query(query,BaseModel.getStoreName(),new Line().getRepositoryName());
+            return MongoHelper.query(query,BaseModel.getStoreName(),lineRepo);
         }catch(Exception e){
                 System.out.println("couldn't fetch lines"+e);
         }
@@ -89,7 +89,24 @@ public class Budget extends BaseModel implements BudgetInterface {
         BasicDBObject query = new BasicDBObject();
         query.put("entry.budgetId", id);
         try{
-            return MongoHelper.query(query,BaseModel.getStoreName(),new Note().getRepositoryName());
+            return MongoHelper.query(query,BaseModel.getStoreName(),noteRepo);
+        }catch(Exception e){
+                System.out.println("couldn't fetch notes"+e);
+        }
+        return null;
+    }
+    
+    
+        /**
+     * Gets all of the notes associated with the budget.
+     * @return The Notes associated with the budget
+     */
+    
+    public ArrayList<Audit> fetchAudits() {
+        BasicDBObject query = new BasicDBObject();
+        query.put("entry.budgetId", id);
+        try{
+            return MongoHelper.query(query,BaseModel.getStoreName(),auditRepo);
         }catch(Exception e){
                 System.out.println("couldn't fetch notes"+e);
         }
@@ -213,7 +230,6 @@ public class Budget extends BaseModel implements BudgetInterface {
         {
             total += value;
         }
-        System.out.println("THE BUDGET IS WORTH"+total);
         addAudit(audit);
     }
     
