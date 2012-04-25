@@ -205,6 +205,7 @@ public class Budget extends BaseModel implements BudgetInterface {
     public void update(Audit audit){
         super.update(audit);
         total += audit.getValue();
+        System.out.println("THE BUDGET IS WORTH"+total);
         dirty();
         addAudit(audit);
     }
@@ -219,7 +220,7 @@ public class Budget extends BaseModel implements BudgetInterface {
 	    query.put("entry.id", id);
 	    System.out.println(id);
 	    try{
-                Budget b = (Budget) MongoHelper.query(query,BaseModel.getStoreName(),repoName).get(0);
+                Budget b = (Budget) MongoHelper.query(query,BaseModel.getStoreName(),budgetRepo).get(0);
                 trimHamper(b);
                 return b;
 	    }catch(Exception e){
@@ -233,7 +234,7 @@ public class Budget extends BaseModel implements BudgetInterface {
         BasicDBObject gt = new BasicDBObject("$gt", -1);
         query.put("entry.id", gt);
         try{
-            ArrayList list = MongoHelper.query(query,BaseModel.getStoreName(), repoName);
+            ArrayList list = MongoHelper.query(query,BaseModel.getStoreName(), budgetRepo);
             trimHamper(list);
             return list;
         }catch(Exception e){
@@ -241,6 +242,5 @@ public class Budget extends BaseModel implements BudgetInterface {
         }
         return null;
     }
-    @JsonIgnore
-    public final static String repoName = "Budgets";
+    
 }

@@ -82,10 +82,7 @@ public class Transaction extends BaseModel implements TransactionInterface {
 	@Override
 	public void setAmount(Double amount) {
 		this.amount = amount;
-//		Audit audit = new Audit();
-//		audit.setValue(amount);
-//                audit.setUpdated(new ArrayList<Integer>());
-//		update(audit);
+                dirty();
 	}
 
 	@Override
@@ -111,7 +108,7 @@ public class Transaction extends BaseModel implements TransactionInterface {
 		BasicDBObject query = new BasicDBObject();
 		query.put("entry.id", id);
 		try {
-			return (Transaction) MongoHelper.query(query, BaseModel.getStoreName(), new Transaction().getRepositoryName()).get(0);
+			return (Transaction) MongoHelper.query(query, BaseModel.getStoreName(),transactionRepo).get(0);
 		} catch (Exception e) {
 			System.out.println("couldnt find Transaction #" + id + " " + e);
 		}

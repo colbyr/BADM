@@ -28,6 +28,17 @@ abstract class BaseModel extends Entry implements BridgeInterface{
 	
     
         String name;
+        
+    @JsonIgnore
+    public final static String budgetRepo = "Budgets";
+    @JsonIgnore
+    public final static String lineRepo = "Lines";
+    @JsonIgnore
+    public final static String sublineRepo = "Sublines";
+    @JsonIgnore
+    public final static String transactionRepo = "Transactions";
+        
+        
         @Override
         public void setName(String name){
             this.name = name;
@@ -102,7 +113,7 @@ abstract class BaseModel extends Entry implements BridgeInterface{
                 if(hamper.get(bm) == BridgeConstants.State.CREATE){
                     try {
                         newId = MongoHelper.insert(bm,BaseModel.getStoreName(), bm.getRepositoryName());
-                        System.out.println("New item being added "+ bm.getClass() + bm.getName()+ bm.getId());
+                        System.out.println("New item being added "+ bm.getClass() + bm.getRepositoryName()+ bm.getId());
                     } catch (Exception ex) {
                         System.out.println("New " + bm.getClass() + bm.getId() + " failed to be commited "+ex);
                     }

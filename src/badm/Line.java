@@ -9,6 +9,7 @@ import cc.test.bridge.LineInterface;
 import cc.test.bridge.SublineInterface;
 import com.mongodb.BasicDBObject;
 import java.util.ArrayList;
+import org.codehaus.jackson.annotate.JsonIgnore;
 import org.workplicity.util.Helper;
 import org.workplicity.util.MongoHelper;
 import org.workplicity.worklet.WorkletContext;
@@ -25,6 +26,16 @@ public class Line extends BaseModel implements LineInterface {
     Integer number;
     Integer budgetId;
     Double total;
+    Double goal;
+
+    public Double getGoal() {
+        return goal;
+    }
+
+    public void setGoal(Double goal) {
+        dirty();
+        this.goal = goal;
+    }
     
     /**
      * 
@@ -92,9 +103,8 @@ public class Line extends BaseModel implements LineInterface {
     public ArrayList<SublineInterface> fetchSublines() {
         BasicDBObject query = new BasicDBObject();
         query.put("entry.lineId", id);
-        System.out.println(id);
         try{
-            return MongoHelper.query(query,BaseModel.getStoreName(),new Subline().getRepositoryName());
+            return MongoHelper.query(query,BaseModel.getStoreName(),"Sublines");
         }catch(Exception e){
                 System.out.println("Couldnt fetch sublines of Line #"+number
                         +" because of error:"+e);
@@ -120,7 +130,7 @@ public class Line extends BaseModel implements LineInterface {
     @Override
     public void add(SublineInterface si) {
             Subline subline = (Subline)si;
-// TODO           subline.setLineId(id);
+            subline.setLineId(id);
     }
 
     /**
@@ -160,11 +170,14 @@ public class Line extends BaseModel implements LineInterface {
         BasicDBObject query = new BasicDBObject();
         query.put("entry.id", id);
         try{
-            return (Line) MongoHelper.query(query,BaseModel.getStoreName(),new Line().getRepositoryName()).get(0);
+            return (Line) MongoHelper.query(query,BaseModel.getStoreName(),repoName).get(0);
         }catch(Exception e){
                 System.out.println("couldnt find line #"+id+" "+e);
         }
         return null;
     }
+    
+    @JsonIgnore
+    public final static String repoName = "Lines";
 
 }

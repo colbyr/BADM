@@ -10,6 +10,7 @@ import com.mongodb.BasicDBObject;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.codehaus.jackson.annotate.JsonIgnore;
 import org.workplicity.util.Helper;
 import org.workplicity.util.MongoHelper;
 
@@ -53,13 +54,13 @@ public class Subline extends Line implements SublineInterface {
 	@Override
 	public ArrayList<TransactionInterface> fetchTransactions() {
 		BasicDBObject query = new BasicDBObject();
-		query.put("entry.budgetId", id);
+		query.put("entry.sublineId", id);
 		ArrayList<TransactionInterface> result;
 		try {
-			result = MongoHelper.query(query, BaseModel.getStoreName(), new Line().getRepositoryName());
+			result = MongoHelper.query(query, BaseModel.getStoreName(), transactionRepo);
 		} catch (Exception e) {
 			result = null;
-			System.out.println("couldn't fetch lines" + e);
+			System.out.println("couldn't fetch transactions" + e);
 		}
 		return result;
 	}
@@ -126,7 +127,7 @@ public class Subline extends Line implements SublineInterface {
             BasicDBObject query = new BasicDBObject();
             query.put("entry.id", id);
             try{
-                return (Subline) MongoHelper.query(query,BaseModel.getStoreName(),new Subline().getRepositoryName()).get(0);
+                return (Subline) MongoHelper.query(query,BaseModel.getStoreName(),sublineRepo).get(0);
             }catch(Exception e){
                     System.out.println("couldnt find Subline #"+id+" "+e);
             }
@@ -140,4 +141,6 @@ public class Subline extends Line implements SublineInterface {
             dirty();
             Line.find(lineId).update(audit);
         }
+        
+    
 }
