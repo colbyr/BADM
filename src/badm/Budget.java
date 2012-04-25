@@ -72,8 +72,16 @@ public class Budget extends BaseModel implements BudgetInterface {
     public ArrayList<LineInterface> fetchLines(Side side) {
         BasicDBObject query = new BasicDBObject();
         query.put("entry.budgetId", id);
+        if(side == BridgeConstants.Side.INCOME){
+            query.put("entry.income", true);
+        }
+        else if(side == BridgeConstants.Side.EXPENDITURE){
+            query.put("entry.income", false);
+        }        
         try{
-            return MongoHelper.query(query,BaseModel.getStoreName(),lineRepo);
+            ArrayList list = MongoHelper.query(query,BaseModel.getStoreName(),lineRepo);
+            trimHamper(list);
+            return list;
         }catch(Exception e){
                 System.out.println("couldn't fetch lines"+e);
         }

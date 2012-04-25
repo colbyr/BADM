@@ -40,6 +40,7 @@ public class FullTest {
         badassbudget.commit();
         mrliney = new Line();
         mrliney.setGoal(1000.0);
+        mrliney.setIncome(true);
         badassbudget.commit();
         badassbudget.add(mrliney);
         badassbudget.commit();
@@ -101,5 +102,10 @@ public class FullTest {
         Integer id = badassbudget.getId();
         Budget budget = Budget.find(id);
         assertNotNull(budget.getTotal());
+     }
+     
+     @Test
+     public void certainLines(){
+         
      }
 }
