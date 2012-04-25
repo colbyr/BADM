@@ -26,21 +26,44 @@ public class Line extends BaseModel implements LineInterface {
     Integer number;
     Integer budgetId;
     Double total;
-    Integer numSublines;
+    Integer numSublines = 0;
     Boolean income;
 
+    /**
+     * A boolean that represents the side(income/expense) that the line is on
+     * @return true if the line is one the income side
+     */
     public Boolean getIncome() {
         return income;
     }
-
+    
+    /**
+     * Sets the side the line is on. Nothing by default. If not set the line 
+     * will be lost... FOREVER. 
+     * @param income 
+     */
     public void setIncome(Boolean income) {
         this.income = income;
     }
-
+    
+    /** 
+     * The number of sublines that are linked to this line. 
+     * The count is incremented whenever a subline is linked to the 
+     * line even if the subline has been linked before so be 
+     * careful with when you add sublines or else the count
+     * can become wrong. To get a truly accurate count call
+     * fetchSublines().size()
+     * @return 
+     */
     public Integer getNumSublines() {
         return numSublines;
     }
 
+    /**
+     * Unless you are absolutely certain of the number of lines don't use this. 
+     * It's really just here so that line is a bean. 
+     * @param numSublines 
+     */
     public void setNumSublines(Integer numSublines) {
         this.numSublines = numSublines;
     }
@@ -128,9 +151,10 @@ public class Line extends BaseModel implements LineInterface {
      */
     @Override
     public SublineInterface createSubline() {
-           Subline subline = new Subline();
-           subline.setLineId(id);
-           return subline;
+        numSublines += 1;
+        Subline subline = new Subline();
+        subline.setLineId(id);
+        return subline;
     }
 
     /**
@@ -139,6 +163,7 @@ public class Line extends BaseModel implements LineInterface {
      */
     @Override
     public void add(SublineInterface si) {
+            numSublines += 1;
             Subline subline = (Subline)si;
             subline.setLineId(id);
             subline.setBudgetId(budgetId);
