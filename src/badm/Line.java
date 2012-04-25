@@ -26,6 +26,24 @@ public class Line extends BaseModel implements LineInterface {
     Integer number;
     Integer budgetId;
     Double total;
+    Integer numSublines;
+    Boolean income;
+
+    public Boolean getIncome() {
+        return income;
+    }
+
+    public void setIncome(Boolean income) {
+        this.income = income;
+    }
+
+    public Integer getNumSublines() {
+        return numSublines;
+    }
+
+    public void setNumSublines(Integer numSublines) {
+        this.numSublines = numSublines;
+    }
     
     /**
      * 
