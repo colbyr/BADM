@@ -206,7 +206,6 @@ public class Budget extends BaseModel implements BudgetInterface {
         super.update(audit);
         total += audit.getValue();
         System.out.println("THE BUDGET IS WORTH"+total);
-        dirty();
         addAudit(audit);
     }
     

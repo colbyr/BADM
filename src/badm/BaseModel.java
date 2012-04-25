@@ -175,6 +175,10 @@ abstract class BaseModel extends Entry implements BridgeInterface{
 	 * @param audit 
 	 */
         public void update(Audit audit){
+            if(audit.getUpdated() == null)
+            {
+                audit.setUpdated(new ArrayList<Integer>());
+            }
             audit.getUpdated().add(0, id);
             dirty();
         }

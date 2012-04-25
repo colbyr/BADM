@@ -89,9 +89,10 @@ public class Transaction extends BaseModel implements TransactionInterface {
 	public void update(Audit audit) {
 		super.update(audit);
 		audit.setDescription("Change in transaction " + this.getId() + " " + audit.getValue());
-		dirty();
                 try{
-		Subline.find(sublineId).update(audit);
+		Subline su = Subline.find(sublineId);
+                System.out.println(su.getId());
+                        su.update(audit);
                 }catch(NullPointerException e){
                     System.out.println("Subline associated with Transcation #"+id+
                             " with subline id of " + sublineId + " does not exits");
