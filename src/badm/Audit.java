@@ -5,7 +5,7 @@
 package badm;
 
 import com.mongodb.BasicDBObject;
-import java.util.ArrayList;
+import java.util.HashMap;
 import org.workplicity.util.MongoHelper;
 
 /**
@@ -18,7 +18,7 @@ import org.workplicity.util.MongoHelper;
 public class Audit extends BaseModel {
 
 	protected Integer timestamp;
-	protected ArrayList<Integer> updated;
+	protected HashMap<BaseModel , Integer> updated;
 	protected String description;
 	protected Integer budgetId;
         protected Double value;
@@ -86,7 +86,7 @@ public class Audit extends BaseModel {
 	 * 
 	 * @return 
 	 */
-	public ArrayList<Integer> getUpdated() {
+	public HashMap<BaseModel,Integer> getUpdated() {
 		return updated;
 	}
 
@@ -97,7 +97,7 @@ public class Audit extends BaseModel {
 	 * 
 	 * @param updated 
 	 */
-	public void setUpdated(ArrayList<Integer> updated) {
+	public void setUpdated(HashMap<BaseModel,Integer> updated) {
 		this.updated = updated;
                 dirty();
 	}

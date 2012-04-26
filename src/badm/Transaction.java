@@ -82,11 +82,12 @@ public class Transaction extends BaseModel implements TransactionInterface {
 	@Override
 	public void setAmount(Double amount) {
             this.amount = amount;
-            Audit audit = new Audit();
-            audit.setValue(amount);
-            audit.setUpdated(new ArrayList<Integer>());
             dirty();
-            update(audit);
+            if(id != -1){
+                Audit audit = new Audit();
+                audit.setValue(amount);
+                update(audit);
+            }
 	}
 
 	@Override

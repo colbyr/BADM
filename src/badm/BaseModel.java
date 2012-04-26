@@ -24,7 +24,7 @@ import org.workplicity.worklet.WorkletContext;
  * 
  * @author Colby Rabideau
  */
-abstract class BaseModel extends Entry implements BridgeInterface{
+public abstract class BaseModel extends Entry implements BridgeInterface{
 	
     
     String name;
@@ -190,9 +190,9 @@ abstract class BaseModel extends Entry implements BridgeInterface{
         public void update(Audit audit){
             if(audit.getUpdated() == null)
             {
-                audit.setUpdated(new ArrayList<Integer>());
+                audit.setUpdated(new HashMap<BaseModel,Integer>());
             }
-            audit.getUpdated().add(0, id);
+            audit.getUpdated().put(this,id);
             dirty();
         }
         

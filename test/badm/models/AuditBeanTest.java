@@ -5,7 +5,9 @@
 package badm.models;
 
 import badm.Audit;
+import badm.BaseModel;
 import java.util.ArrayList;
+import java.util.HashMap;
 import static org.junit.Assert.assertEquals;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -51,7 +53,7 @@ public class AuditBeanTest {
      */
     @Test
     public void testUpdated() {
-        ArrayList<Integer> test = new ArrayList();
+        HashMap<BaseModel, Integer> test = new HashMap();
         audit.setUpdated(test);
         assert(test.equals(audit.getUpdated()));
     }
