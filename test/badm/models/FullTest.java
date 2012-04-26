@@ -100,12 +100,34 @@ public class FullTest {
         tran.setAmount(150.0);
         tran.commit();
         Integer id = badassbudget.getId();
-        Budget budget = Budget.find(id);
-        assertNotNull(budget.getTotal());
-     }
-     
-     @Test
-     public void certainLines(){
-         
+        Audit audit = badassbudget.fetchAudits().get(0);
+        ArrayList<Integer> trail = audit.getUpdated();
+        Budget budget = null;
+        Line line = null;
+        Subline subline = null;
+        Transaction transaction = null;
+        for(int i=0; i<trail.size(); i++){
+            switch(i){
+                case 0:
+                    budget = Budget.find(trail.get(i));
+                    break;
+                case 1:
+                    line = Line.find(trail.get(i));
+                    break;
+                case 2:
+                    subline = Subline.find(trail.get(i));
+                    break;
+                case 3:
+                    transaction = Transaction.find(trail.get(i));
+                    break;
+                default:
+                    System.out.println("The audit trail is too large");
+                    break;
+            }
+        }
+        assertNotNull(budget);
+        assertNotNull(line);
+        assertNotNull(subline);
+        assertNotNull(transaction);
      }
 }
