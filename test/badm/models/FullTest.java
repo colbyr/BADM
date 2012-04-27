@@ -8,6 +8,7 @@ import badm.*;
 import cc.test.bridge.BridgeConstants;
 import cc.test.bridge.TransactionInterface;
 import java.util.ArrayList;
+import java.util.HashMap;
 import org.junit.*;
 import static org.junit.Assert.*;
 
@@ -101,7 +102,7 @@ public class FullTest {
         tran.commit();
         Integer id = badassbudget.getId();
         Audit audit = badassbudget.fetchAudits().get(0);
-        ArrayList<Integer> trail = audit.getUpdated();
+        HashMap<BaseModel,Integer> trail = audit.getUpdated();
         Budget budget = null;
         Line line = null;
         Subline subline = null;
