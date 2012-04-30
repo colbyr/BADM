@@ -82,11 +82,12 @@ public class Transaction extends BaseModel implements TransactionInterface {
 	@Override
 	public void setAmount(Double amount) {
             boolean lessThan = false;
-            if(this.amount > amount)
-                lessThan = true;
+            double old = amount;
             this.amount = amount;
             dirty();
             if(id != -1){
+                if(old > amount)
+                    lessThan = true;
                 Audit audit = new Audit();
                 if(lessThan)
                     audit.setValue(amount * (-1));

@@ -233,12 +233,19 @@ public class Budget extends BaseModel implements BudgetInterface {
     public void update(Audit audit, Boolean income){
         super.update(audit);
         double value = audit.getValue();
-        if(total == null && !income)
+        if(total == null && income)
         {
             total = value;
         }
-        else if(!income){
+        else if(income){
             total += value;
+        }
+        else if(total == null && !income)
+        {
+            total = value * (-1);
+        }
+        else if(!income){
+            total -= value;
         }
         addAudit(audit);
     }
