@@ -202,7 +202,8 @@ public class Line extends BaseModel implements LineInterface {
             total += value;
         }
         dirty();
-        Budget.find(budgetId).update(audit);
+        System.out.println("BUDGET ID?"+budgetId);
+        Budget.find(budgetId).update(audit, income);
     }
     
     /**

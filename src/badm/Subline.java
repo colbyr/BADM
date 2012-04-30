@@ -8,6 +8,7 @@ import cc.test.bridge.SublineInterface;
 import cc.test.bridge.TransactionInterface;
 import com.mongodb.BasicDBObject;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.codehaus.jackson.annotate.JsonIgnore;
@@ -138,12 +139,16 @@ public class Subline extends Line implements SublineInterface {
         }
         
         @Override
-        public void update(Audit audit){
-            //audit.getUpdated().add(0, id);
-            super.update(audit);
-            Line.find(lineId).update(audit);
-                 
+    public void update(Audit audit) {
+        //audit.getUpdated().add(0, id);
+        if (audit.getUpdated() == null) {
+            audit.setUpdated(new HashMap<String, Integer>());
         }
+        audit.getUpdated().put(this.toString(), id);
+        dirty();
+        Line.find(lineId).update(audit);
+
+    }
         
     
 }

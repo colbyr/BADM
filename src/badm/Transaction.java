@@ -81,11 +81,17 @@ public class Transaction extends BaseModel implements TransactionInterface {
 	 */
 	@Override
 	public void setAmount(Double amount) {
+            boolean lessThan = false;
+            if(this.amount > amount)
+                lessThan = true;
             this.amount = amount;
             dirty();
             if(id != -1){
                 Audit audit = new Audit();
-                audit.setValue(amount);
+                if(lessThan)
+                    audit.setValue(amount * (-1));
+                else
+                    audit.setValue(amount);
                 update(audit);
             }
 	}
@@ -93,7 +99,7 @@ public class Transaction extends BaseModel implements TransactionInterface {
 	@Override
 	public void update(Audit audit) {
             super.update(audit);
-            audit.setDescription("Change in transaction " + this.getId() + " " + audit.getValue());
+            audit.setDescription("Change in transaction " + id + " " + amount);
             try{
                 Subline.find(sublineId).update(audit);
             }catch(NullPointerException e){

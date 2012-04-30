@@ -230,16 +230,14 @@ public class Budget extends BaseModel implements BudgetInterface {
      * Updates the Budget then stashes the Audit in AuditLand.
      * @param audit The Audit to use as a refrence for the update
      */
-    @Override
-    public void update(Audit audit){
+    public void update(Audit audit, Boolean income){
         super.update(audit);
         double value = audit.getValue();
-        if(total == null)
+        if(total == null && !income)
         {
             total = value;
         }
-        else
-        {
+        else if(!income){
             total += value;
         }
         addAudit(audit);

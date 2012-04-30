@@ -18,7 +18,7 @@ import org.workplicity.util.MongoHelper;
 public class Audit extends BaseModel {
 
 	protected Integer timestamp;
-	protected HashMap<BaseModel , Integer> updated;
+	protected HashMap<String , Integer> updated;
 	protected String description;
 	protected Integer budgetId;
         protected Double value;
@@ -86,7 +86,7 @@ public class Audit extends BaseModel {
 	 * 
 	 * @return 
 	 */
-	public HashMap<BaseModel,Integer> getUpdated() {
+	public HashMap<String,Integer> getUpdated() {
 		return updated;
 	}
 
@@ -97,7 +97,7 @@ public class Audit extends BaseModel {
 	 * 
 	 * @param updated 
 	 */
-	public void setUpdated(HashMap<BaseModel,Integer> updated) {
+	public void setUpdated(HashMap<String,Integer> updated) {
 		this.updated = updated;
                 dirty();
 	}
