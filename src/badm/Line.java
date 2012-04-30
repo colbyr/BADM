@@ -194,7 +194,7 @@ public class Line extends BaseModel implements LineInterface {
         super.update(audit);
         double value = audit.getValue();
         if(total == null)
-        {
+        {   
             total = value;
         }
         else

@@ -83,6 +83,8 @@ public class Transaction extends BaseModel implements TransactionInterface {
 	public void setAmount(Double amount) {
             boolean lessThan = false;
             double old = amount;
+            if(this.amount != null)
+                 old = this.amount;
             this.amount = amount;
             dirty();
             if(id != -1){
@@ -90,9 +92,11 @@ public class Transaction extends BaseModel implements TransactionInterface {
                     lessThan = true;
                 Audit audit = new Audit();
                 if(lessThan)
-                    audit.setValue(amount * (-1));
+                    audit.setValue(amount - old);
+                else if(old == amount)
+                    return;
                 else
-                    audit.setValue(amount);
+                    audit.setValue(this.amount);
                 update(audit);
             }
 	}
