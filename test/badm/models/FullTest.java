@@ -87,48 +87,4 @@ public class FullTest {
         assert(transaction.getAmount().equals(tran.getAmount()));
      }
      
-     @Test
-     public void autoUpdate() {
-        tran.setAmount(150.0);
-        badassbudget.commit();
-        Integer id = badassbudget.getId();
-        Budget budget = Budget.find(id);
-        assert(budget.getTotal().equals(tran.getAmount()));
-     }
-     
-     @Test
-     public void auditTrail(){
-        tran.setAmount(150.0);
-        tran.commit();
-        Integer id = badassbudget.getId();
-        Audit audit = badassbudget.fetchAudits().get(0);
-        HashMap<BaseModel,Integer> trail = audit.getUpdated();
-        Budget budget = null;
-        Line line = null;
-        Subline subline = null;
-        Transaction transaction = null;
-        for(int i=0; i<trail.size(); i++){
-            switch(i){
-                case 0:
-                    budget = Budget.find(trail.get(i));
-                    break;
-                case 1:
-                    line = Line.find(trail.get(i));
-                    break;
-                case 2:
-                    subline = Subline.find(trail.get(i));
-                    break;
-                case 3:
-                    transaction = Transaction.find(trail.get(i));
-                    break;
-                default:
-                    System.out.println("The audit trail is too large");
-                    break;
-            }
-        }
-        assertNotNull(budget);
-        assertNotNull(line);
-        assertNotNull(subline);
-        assertNotNull(transaction);
-     }
 }

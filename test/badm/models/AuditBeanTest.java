@@ -46,17 +46,6 @@ public class AuditBeanTest {
         assertEquals(test, audit.getTimeStamp());
     }
 
-    /**
-     * [test] Updated
-     *
-     * @return void
-     */
-    @Test
-    public void testUpdated() {
-        HashMap<BaseModel, Integer> test = new HashMap();
-        audit.setUpdated(test);
-        assert(test.equals(audit.getUpdated()));
-    }
 
     /**
      * [test] Description
