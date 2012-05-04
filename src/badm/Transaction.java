@@ -100,7 +100,12 @@ public class Transaction extends BaseModel implements TransactionInterface {
                 update(audit);
             }
 	}
-
+        /**
+         * This is the function that does the bubbling. Once the transaction is
+         * updated it recursivly updates all of the rest of the objects in the
+         * trail and then places the audit in its collection.
+         * @param audit 
+         */
 	@Override
 	public void update(Audit audit) {
             super.update(audit);

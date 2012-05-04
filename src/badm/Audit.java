@@ -23,10 +23,18 @@ public class Audit extends BaseModel {
 	protected Integer budgetId;
         protected Double value;
 
+        /**
+         * The value of the change that is represented by the audit.
+         * @return the value
+         */
         public Double getValue() {
             return value;
         }
 
+        /**
+         * 
+         * @param value The value of the change
+         */
         public void setValue(Double value) {
             this.value = value;
             dirty();
